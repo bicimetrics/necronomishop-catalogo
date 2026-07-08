@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Header from "@/components/admin/layout/Header";
-import Button from "@/components/admin/ui/Button";
-import ProductList from "@/features/products/components/ProductList";
+import Header from "@/src/components/admin/layout/Header";
+import Button from "@/src/components/admin/ui/Button";
+import ProductList from "@/src/features/products/components/ProductList";
 import { Plus } from "lucide-react";
 
 

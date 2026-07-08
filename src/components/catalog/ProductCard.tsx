@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { MessageCircle, Package, Sparkles } from "lucide-react";
-import { Product } from "@/types/product";
+import { Product } from "@/src/types/product";
 
 const WHATSAPP = "569XXXXXXXX";
 
