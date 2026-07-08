@@ -1,5 +1,5 @@
 import ProductRow from "./ProductRow";
-import ProductRepository from "@/src/repositories/ProductRepository";
+import ProductRepository from "@/repositories/ProductRepository";
 
 export default async function ProductList() {
 

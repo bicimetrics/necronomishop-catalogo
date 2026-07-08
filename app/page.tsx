@@ -1,7 +1,7 @@
-import Navbar from "@/src/components/layout/Navbar";
-import SearchBar from "@/src/components/admin/ui/Search";
-import Filters from "@/src/components/catalog/Filters";
-import ProductGrid from "@/src/components/catalog/ProductGrid";
+import Navbar from "@/components/layout/Navbar";
+import SearchBar from "@/components/admin/ui/Search";
+import Filters from "@/components/catalog/Filters";
+import ProductGrid from "@/components/catalog/ProductGrid";
 
 export default function Home() {
   return (

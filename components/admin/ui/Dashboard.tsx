@@ -1,7 +1,7 @@
-import Header from "@/src/components/admin/layout/Header";
-import Button from "@/src/components/admin/ui/Button";
-import Card from "@/src/components/admin/ui/Card";
-import StatCard from "@/src/components/admin/dashboard/StatCard";
+import Header from "@/components/admin/layout/Header";
+import Button from "@/components/admin/ui/Button";
+import Card from "@/components/admin/ui/Card";
+import StatCard from "@/components/admin/dashboard/StatCard";
 import { Plus } from "lucide-react";
 
 export default function Dashboard() {

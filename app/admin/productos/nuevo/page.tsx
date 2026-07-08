@@ -1,5 +1,5 @@
-import Header from "@/src/components/admin/layout/Header";
-import ProductForm from "@/src/features/products/components/ProductForm";
+import Header from "@/components/admin/layout/Header";
+import ProductForm from "@/features/products/components/ProductForm";
 
 export default function NuevoProductoPage() {
   return (

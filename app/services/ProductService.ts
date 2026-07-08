@@ -1,4 +1,4 @@
-import ProductRepository from "@/src/repositories/ProductRepository";
+import ProductRepository from "@/repositories/ProductRepository";
 
 export default class ProductService {
 

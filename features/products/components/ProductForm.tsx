@@ -9,10 +9,10 @@ import {
   ProductFormData,
 } from "../schemas/product.schema";
 
-import slugify from "@/src/utils/slug";
+import slugify from "@/utils/slug";
 
-import Input from "@/src/components/admin/ui/Input";
-import Button from "@/src/components/admin/ui/Button";
+import Input from "@/components/admin/ui/Input";
+import Button from "@/components/admin/ui/Button";
 
 export default function ProductForm() {
 

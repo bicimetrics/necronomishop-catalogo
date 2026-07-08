@@ -1,4 +1,4 @@
-import ProductService from "@/src/app/services/ProductService";
+import ProductService from "@/app/services/ProductService";
 import ProductCard from "./ProductCard";
 
 export default async function ProductGrid() {

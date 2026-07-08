@@ -1,5 +1,5 @@
-import { supabase } from "@/src/lib/supabase";
-import { Product } from "@/src/types/product";
+import { supabase } from "@/lib/supabase";
+import { Product } from "@/types/product";
 
 export default class ProductRepository {
 

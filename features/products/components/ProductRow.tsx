@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
-import Button from "@/src/components/admin/ui/Button";
-import Badge from "@/src/components/admin/ui/Badge";
-import { Product } from "@/src/types/product";
+import Button from "@/components/admin/ui/Button";
+import Badge from "@/components/admin/ui/Badge";
+import { Product } from "@/types/product";
 
 interface Props {
     product: Product;
