@@ -1,18 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import Input from "@/components/admin/ui/Input";
-import TextArea from "@/components/admin/ui/TextArea";
-import Button from "@/components/admin/ui/Button";
+import { saveProduct } from "../services/product.service";
 
 import {
   productSchema,
   ProductFormData,
 } from "../schemas/product.schema";
 
+import GeneralSection from "./form/GeneralSection";
+import PricingSection from "./form/PricingSection";
+import CategorySection from "./form/CategorySection";
+import ImageSection from "./form/ImageSection";
+import ActionsSection from "./form/ActionsSection";
+
 export default function ProductForm() {
+  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -21,75 +29,48 @@ export default function ProductForm() {
     resolver: zodResolver(productSchema),
   });
 
-  function onSubmit(data: ProductFormData) {
-    console.log(data);
+  async function onSubmit(data: ProductFormData) {
+  console.log("FORMULARIO", data);
+
+  try {
+    setLoading(true);
+
+    await saveProduct(data, image);
+
+    console.log("FIN OK");
+  } catch (error) {
+    console.error("FORM ERROR", error);
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-8"
     >
-      <div className="rounded-3xl border border-zinc-800 bg-[#111] p-8">
+      <GeneralSection
+        register={register}
+        errors={errors}
+      />
 
-        <h2 className="mb-8 text-xl font-bold">
-          Información general
-        </h2>
+      <PricingSection
+        register={register}
+      />
 
-        <div className="space-y-6">
+      <CategorySection
+        register={register}
+        errors={errors}
+      />
 
-          <Input
-            label="Nombre"
-            {...register("name")}
-            error={errors.name?.message}
-          />
+      <ImageSection
+        onChange={setImage}
+      />
 
-          <Input
-            label="Slug"
-            {...register("slug")}
-            error={errors.slug?.message}
-          />
-
-          <TextArea
-            label="Descripción"
-            {...register("description")}
-          />
-
-          <div className="grid grid-cols-2 gap-6">
-
-            <Input
-              label="Precio"
-              type="number"
-              {...register("price")}
-            />
-
-            <Input
-              label="Stock"
-              type="number"
-              {...register("stock")}
-            />
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div className="flex justify-end gap-4">
-
-        <Button
-          type="button"
-          variant="secondary"
-        >
-          Cancelar
-        </Button>
-
-        <Button type="submit">
-          Guardar producto
-        </Button>
-
-      </div>
-
+      <ActionsSection
+        loading={loading}
+      />
     </form>
   );
 }

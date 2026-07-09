@@ -1,11 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Pencil, Trash2 } from "lucide-react";
+import { getImageUrl } from "@/features/products/services/image.service";
+
+import { Product } from "@/features/products/types/product.types";
 
 interface Props {
-  product: any;
+  product: Product & {
+    categories?: {
+      name: string;
+    };
+  };
 }
-
 export default function ProductRow({ product }: Props) {
 
   return (
@@ -17,11 +23,15 @@ export default function ProductRow({ product }: Props) {
         <div className="flex items-center gap-4">
 
           <Image
-            src={product.image}
+            src={getImageUrl(product.image)}
             alt={product.name}
             width={70}
             height={70}
             className="rounded-xl object-cover"
+            style={{
+            width: "70px",
+            height: "70px",
+           }}
           />
 
           <div>
