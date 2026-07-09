@@ -3,8 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { Product } from "../types/product.types";
 
-export async function createProduct(data: any) {
+export async function createProduct(data: Product) {
   console.log("Datos recibidos:", data);
 
   const { data: inserted, error } = await supabase
