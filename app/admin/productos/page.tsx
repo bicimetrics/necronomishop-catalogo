@@ -1,9 +1,6 @@
-import Link from "next/link";
 import Header from "@/components/admin/layout/Header";
-import Button from "@/components/admin/ui/Button";
-import ProductList from "@/features/products/components/ProductList";
-import { Plus } from "lucide-react";
-
+import ProductToolbar from "@/features/products/components/ProductToolbar";
+import ProductTable from "@/features/products/components/ProductTable";
 
 export default function ProductosPage() {
   return (
@@ -11,17 +8,11 @@ export default function ProductosPage() {
       <Header
         title="Productos"
         subtitle="Administra todo el catálogo de Necronomishop."
-        actions={
-         <Link href="/admin/productos/nuevo">
-           <Button>
-             <Plus size={18} />
-             <span className="ml-2">Nuevo producto</span>
-           </Button>
-        </Link>
-}
       />
 
-      <ProductList />
+      <ProductToolbar />
+
+      <ProductTable />
     </>
   );
 }
