@@ -8,7 +8,6 @@ import { Product } from "../types/product.types";
 
 import { saveProduct } from "../services/product.service";
 import { uploadProductImage } from "../services/image.service";
-
 import { updateProduct } from "../actions/updateProduct";
 
 import {
@@ -29,7 +28,6 @@ interface Props {
 export default function ProductForm({
   product,
 }: Props) {
-
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -48,20 +46,27 @@ export default function ProductForm({
           price: product.price,
           stock: product.stock,
           badge: product.badge ?? "",
-          image: product.image,
+          image: product.image ?? "",
           category_id: product.category_id,
         }
-      : undefined,
+      : {
+          name: "",
+          slug: "",
+          description: "",
+          price: 0,
+          stock: 0,
+          badge: "",
+          image: "",
+          category_id: 0,
+        },
   });
 
   async function onSubmit(data: ProductFormData) {
     try {
-
       setLoading(true);
 
       // EDITAR PRODUCTO
       if (product) {
-
         let imagePath = product.image;
 
         if (image) {
@@ -74,26 +79,19 @@ export default function ProductForm({
           image: imagePath,
         });
 
+        return;
       }
 
       // CREAR PRODUCTO
-      else {
-
-        await saveProduct(
-          data as Product,
-          image
-        );
-
-      }
+      await saveProduct(
+        data as Product,
+        image
+      );
 
     } catch (error) {
-
       console.error(error);
-
     } finally {
-
       setLoading(false);
-
     }
   }
 

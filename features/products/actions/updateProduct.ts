@@ -7,12 +7,19 @@ import { Product } from "../types/product.types";
 
 export async function updateProduct(
   id: number,
-  data: Product
+  product: Product
 ) {
   const { error } = await supabase
     .from("products")
     .update({
-      ...data,
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+      badge: product.badge,
+      image: product.image,
+      category_id: product.category_id,
     })
     .eq("id", id);
 

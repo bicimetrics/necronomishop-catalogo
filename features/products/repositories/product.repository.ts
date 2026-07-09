@@ -9,7 +9,9 @@ export async function getProducts() {
         name
       )
     `)
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (error) throw error;
 
@@ -19,12 +21,7 @@ export async function getProducts() {
 export async function getProduct(id: number) {
   const { data, error } = await supabase
     .from("products")
-    .select(`
-      *,
-      categories (
-        name
-      )
-    `)
+    .select("*")
     .eq("id", id)
     .single();
 
