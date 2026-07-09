@@ -2,7 +2,7 @@ import Header from "@/components/admin/layout/Header";
 
 import ProductForm from "@/features/products/components/ProductForm";
 
-import { getProduct } from "@/features/products/repository/product.repository";
+import { getProduct } from "@/features/products/repositories/product.repository";
 
 interface Props {
   params: Promise<{

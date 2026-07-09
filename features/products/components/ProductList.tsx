@@ -1,4 +1,4 @@
-import { getProducts } from "../repository/product.repository";
+import { getProducts } from "../repositories/product.repository";
 import ProductRow from "./ProductRow";
 
 export default async function ProductList() {
