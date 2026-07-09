@@ -16,6 +16,23 @@ export async function getProducts() {
   return data;
 }
 
+export async function getProduct(id: number) {
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories (
+        name
+      )
+    `)
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
 export async function deleteProduct(id: number) {
   const { error } = await supabase
     .from("products")
