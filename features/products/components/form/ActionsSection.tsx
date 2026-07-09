@@ -1,5 +1,4 @@
-import FormActions
-from "@/features/shared/components/FormActions";
+import FormActions from "@/features/shared/components/FormActions";
 
 interface Props {
   loading: boolean;
@@ -8,12 +7,11 @@ interface Props {
 export default function ActionsSection({
   loading,
 }: Props) {
-
   return (
     <FormActions
       loading={loading}
       submitText="Guardar producto"
+      cancelHref="/admin/productos"
     />
   );
-
 }

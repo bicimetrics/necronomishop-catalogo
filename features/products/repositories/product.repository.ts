@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase";
-
 import { Product } from "../types/product.types";
 
 export async function getProducts() {
@@ -7,13 +6,9 @@ export async function getProducts() {
     .from("products")
     .select(`
       *,
-      categories(
-        name
-      )
+      categories(name)
     `)
-    .order("created_at", {
-      ascending: false,
-    });
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
 
@@ -25,9 +20,7 @@ export async function getProduct(id: number) {
     .from("products")
     .select(`
       *,
-      categories(
-        name
-      )
+      categories(name)
     `)
     .eq("id", id)
     .single();
@@ -37,9 +30,7 @@ export async function getProduct(id: number) {
   return data;
 }
 
-export async function createProductRepository(
-  product: Product
-) {
+export async function createProductRepository(product: Product) {
   const { error } = await supabase
     .from("products")
     .insert(product);
@@ -53,15 +44,22 @@ export async function updateProductRepository(
 ) {
   const { error } = await supabase
     .from("products")
-    .update(product)
+    .update({
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+      badge: product.badge,
+      image: product.image,
+      category_id: product.category_id,
+    })
     .eq("id", id);
 
   if (error) throw error;
 }
 
-export async function deleteProductRepository(
-  id: number
-) {
+export async function deleteProductRepository(id: number) {
   const { error } = await supabase
     .from("products")
     .delete()

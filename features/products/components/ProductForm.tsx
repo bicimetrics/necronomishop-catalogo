@@ -87,10 +87,16 @@ export default function ProductForm({
         }
 
         await updateProduct(product.id!, {
-          ...product,
-          ...data,
+          id: product.id,
+          name: data.name,
+          slug: data.slug,
+          description: data.description,
+          price: data.price,
+          stock: data.stock,
+          badge: data.badge,
           image: imagePath,
-        });
+          category_id: data.category_id,
+       });
 
         return;
       }
