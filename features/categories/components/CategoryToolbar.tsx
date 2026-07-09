@@ -1,19 +1,18 @@
-import Link from "next/link";
-import { Plus } from "lucide-react";
-
-import Button from "@/components/admin/ui/Button";
+import CrudToolbar
+from "@/features/shared/components/CrudToolbar";
 
 export default function CategoryToolbar() {
+
   return (
-    <div className="mb-8 flex justify-end">
-      <Link href="/admin/categorias/nueva">
-        <Button>
-          <Plus size={18} />
-          <span className="ml-2">
-            Nueva categoría
-          </span>
-        </Button>
-      </Link>
-    </div>
+
+    <CrudToolbar
+
+      href="/admin/categorias/nueva"
+
+      label="Nueva categoría"
+
+    />
+
   );
+
 }

@@ -1,25 +1,22 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { revalidatePath } from "next/cache";
+
+import {
+  updateCategoryRepository,
+} from "../repositories/category.repository";
 
 import { Category } from "../types/category.types";
 
 export async function updateCategory(
   id: number,
-  data: Category
+  category: Category
 ) {
-  const { error } = await supabase
-    .from("categories")
-    .update({
-      ...data,
-    })
-    .eq("id", id);
-
-  if (error) {
-    throw error;
-  }
+  await updateCategoryRepository(
+    id,
+    category
+  );
 
   revalidatePath("/admin/categorias");
 

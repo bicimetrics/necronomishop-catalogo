@@ -1,20 +1,19 @@
-import Button from "@/components/admin/ui/Button";
+import FormActions
+from "@/features/shared/components/FormActions";
 
-export default function ActionsSection() {
+interface Props {
+  loading: boolean;
+}
+
+export default function ActionsSection({
+  loading,
+}: Props) {
+
   return (
-    <div className="flex justify-end gap-4">
-
-      <Button
-        type="button"
-        variant="secondary"
-      >
-        Cancelar
-      </Button>
-
-      <Button type="submit">
-        Guardar producto
-      </Button>
-
-    </div>
+    <FormActions
+      loading={loading}
+      submitText="Guardar producto"
+    />
   );
+
 }

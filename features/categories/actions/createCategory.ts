@@ -1,28 +1,20 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
-
 import { redirect } from "next/navigation";
-
 import { revalidatePath } from "next/cache";
 
-import { Category } from "../types/category.types";
+import {
+  createCategoryRepository,
+} from "../repositories/category.repository";
 
-import { generateSlug } from "@/features/shared/utils/slug";
+import { Category } from "../types/category.types";
 
 export async function createCategory(
   category: Category
 ) {
-
-  const { error } =
-    await supabase
-      .from("categories")
-      .insert(category);
-
-  if(error) throw error;
+  await createCategoryRepository(category);
 
   revalidatePath("/admin/categorias");
 
   redirect("/admin/categorias");
-
 }

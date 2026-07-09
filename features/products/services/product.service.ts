@@ -1,29 +1,21 @@
 import { Product } from "../types/product.types";
-import { uploadProductImage } from "./image.service";
+
 import { createProduct } from "../actions/createProduct";
 
-export async function saveProduct(
-  data: Product,
-  image?: File | null
-) {
-  console.log("SERVICE 1");
+import { uploadProductImage } from "./image.service";
 
-  let imagePath = "";
+export async function saveProduct(
+  product: Product,
+  image: File | null
+) {
+  let imagePath = product.image;
 
   if (image) {
-    console.log("SERVICE 2");
-
     imagePath = await uploadProductImage(image);
-
-    console.log("SERVICE 3", imagePath);
   }
 
-  console.log("SERVICE 4");
-
-  await createProduct({
-    ...data,
+  return createProduct({
+    ...product,
     image: imagePath,
   });
-
-  console.log("SERVICE 5");
 }

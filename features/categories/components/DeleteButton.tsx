@@ -1,48 +1,31 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
-import { useTransition } from "react";
+import SharedDeleteButton
+from "@/features/shared/components/DeleteButton";
 
-import { deleteCategory } from "../actions/deleteCategory";
+import { deleteCategory }
+from "../actions/deleteCategory";
 
-interface Props {
-  id: number;
+interface Props{
+  id:number;
 }
 
 export default function DeleteButton({
   id,
-}: Props) {
+}:Props){
 
-  const [pending, startTransition] =
-    useTransition();
+  return(
 
-  function handleDelete() {
+    <SharedDeleteButton
 
-    if (!confirm("¿Eliminar categoría?")) {
-      return;
-    }
+      id={id}
 
-    startTransition(async () => {
+      onDelete={deleteCategory}
 
-      await deleteCategory(id);
+      confirmMessage="¿Eliminar esta categoría?"
 
-    });
+    />
 
-  }
-
-  return (
-    <button
-      onClick={handleDelete}
-      disabled={pending}
-      className="
-      rounded-lg
-      p-2
-      text-red-400
-      hover:bg-red-500/10
-      "
-    >
-      <Trash2 size={18}/>
-    </button>
   );
 
 }

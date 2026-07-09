@@ -1,4 +1,5 @@
-import Button from "@/components/admin/ui/Button";
+import FormActions
+from "@/features/shared/components/FormActions";
 
 interface Props {
   loading: boolean;
@@ -7,25 +8,12 @@ interface Props {
 export default function ActionsSection({
   loading,
 }: Props) {
+
   return (
-    <div className="flex justify-end gap-4">
-
-      <Button
-        type="button"
-        variant="secondary"
-      >
-        Cancelar
-      </Button>
-
-      <Button
-        type="submit"
-        disabled={loading}
-      >
-        {loading
-          ? "Guardando..."
-          : "Guardar categoría"}
-      </Button>
-
-    </div>
+    <FormActions
+      loading={loading}
+      submitText="Guardar categoría"
+    />
   );
+
 }

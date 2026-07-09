@@ -1,17 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { supabase } from "@/lib/supabase";
 
-export async function deleteCategory(id: number) {
-  const { error } = await supabase
-    .from("categories")
-    .delete()
-    .eq("id", id);
+import {
+  deleteCategoryRepository,
+} from "../repositories/category.repository";
 
-  if (error) {
-    throw error;
-  }
+export async function deleteCategory(
+  id: number
+) {
+  await deleteCategoryRepository(id);
 
   revalidatePath("/admin/categorias");
 }
