@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export async function deleteProduct(id: number) {
-  // Buscar la imagen asociada
+  // Buscar el producto
   const { data: product, error: findError } = await supabase
     .from("products")
     .select("image")
@@ -15,14 +15,18 @@ export async function deleteProduct(id: number) {
     throw findError;
   }
 
-  // Eliminar imagen del Storage (si existe)
+  // Eliminar imagen del Storage
   if (product?.image) {
-    await supabase.storage
+    const { error: storageError } = await supabase.storage
       .from("products")
       .remove([product.image]);
+
+    if (storageError) {
+      console.error("Storage:", storageError);
+    }
   }
 
-  // Eliminar registro
+  // Eliminar producto
   const { error } = await supabase
     .from("products")
     .delete()

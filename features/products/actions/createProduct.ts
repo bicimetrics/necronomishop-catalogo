@@ -4,24 +4,47 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Product } from "../types/product.types";
+import { generateSlug } from "../services/slug.service";
 
 export async function createProduct(data: Product) {
-  console.log("Datos recibidos:", data);
+  // Generar slug base desde el nombre
+  const baseSlug = generateSlug(data.name);
 
-  const { data: inserted, error } = await supabase
+  let slug = baseSlug;
+  let counter = 2;
+
+  // Buscar un slug disponible
+  while (true) {
+    const { data: existing, error } = await supabase
+      .from("products")
+      .select("id")
+      .eq("slug", slug)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!existing) {
+      break;
+    }
+
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+
+  // Insertar producto
+  const { error } = await supabase
     .from("products")
     .insert({
       ...data,
+      slug,
       created_at: new Date().toISOString(),
-    })
-    .select();
+    });
 
   if (error) {
-    console.error("Supabase INSERT ERROR:", error);
     throw error;
   }
-
-  console.log("Producto creado:", inserted);
 
   revalidatePath("/");
   revalidatePath("/admin/productos");

@@ -12,7 +12,6 @@ export default function GeneralSection({
 }: Props) {
   return (
     <div className="rounded-3xl border border-zinc-800 bg-[#111] p-8">
-
       <h2 className="mb-8 text-xl font-bold">
         Información general
       </h2>
@@ -25,11 +24,18 @@ export default function GeneralSection({
           error={errors.name?.message}
         />
 
-        <Input
-          label="Slug"
-          {...register("slug")}
-          error={errors.slug?.message}
-        />
+        <div>
+          <Input
+            label="Slug"
+            readOnly
+            className="bg-zinc-900 text-zinc-500 cursor-not-allowed"
+            {...register("slug")}
+          />
+
+          <p className="mt-2 text-xs text-zinc-500">
+            El slug se genera automáticamente desde el nombre.
+          </p>
+        </div>
 
         <TextArea
           label="Descripción"
@@ -37,7 +43,6 @@ export default function GeneralSection({
         />
 
       </div>
-
     </div>
   );
 }

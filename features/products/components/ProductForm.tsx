@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -9,6 +9,7 @@ import { Product } from "../types/product.types";
 import { saveProduct } from "../services/product.service";
 import { uploadProductImage } from "../services/image.service";
 import { updateProduct } from "../actions/updateProduct";
+import { generateSlug } from "../services/slug.service";
 
 import {
   productSchema,
@@ -34,6 +35,8 @@ export default function ProductForm({
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -61,11 +64,21 @@ export default function ProductForm({
         },
   });
 
+  const productName = watch("name");
+
+  useEffect(() => {
+    if (product) return; // No regenerar al editar
+
+    setValue(
+      "slug",
+      generateSlug(productName ?? "")
+    );
+  }, [productName, setValue, product]);
+
   async function onSubmit(data: ProductFormData) {
     try {
       setLoading(true);
 
-      // EDITAR PRODUCTO
       if (product) {
         let imagePath = product.image;
 
@@ -82,7 +95,6 @@ export default function ProductForm({
         return;
       }
 
-      // CREAR PRODUCTO
       await saveProduct(
         data as Product,
         image
