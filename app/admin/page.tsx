@@ -1,41 +1,60 @@
 import Header from "@/components/admin/layout/Header";
-import DashboardCards from "@/features/dashboard/components/DashboardCards";
-import DashboardLatestProducts from "@/features/dashboard/components/DashboardLatestProducts";
 
-import DashboardLowStock
-from "@/features/dashboard/components/DashboardLowStock";
-import DashboardQuickActions
-from "@/features/dashboard/components/DashboardQuickActions";
+import ProductFilters from "@/features/products/components/ProductFilters";
+import ProductTable from "@/features/products/components/ProductTable";
 
-export default function AdminPage() {
+import { getCategories } from "@/features/categories/repositories/category.repository";
+
+interface Props {
+  searchParams: Promise<{
+    search?: string;
+    category?: string;
+    stock?: string;
+    sort?: string;
+  }>;
+}
+
+export default async function ProductosPage({
+  searchParams,
+}: Props) {
+
+  const filters = await searchParams;
+
+  const categories = await getCategories();
+
   return (
     <>
       <Header
-        title="Dashboard"
-        subtitle="Resumen general del sistema."
+        title="Productos"
+        subtitle="Administra tu catálogo."
       />
 
-      <DashboardCards />
+      <ProductFilters
+        categories={categories}
+      />
 
-      <div
-        className="
-        mt-8
-        grid
-        gap-6
-        xl:grid-cols-2"
-      >
-
-      <DashboardLatestProducts />
-
-    <DashboardLowStock />
-
-    <div className="mt-6">
-
-      <DashboardQuickActions />
-
-    </div>
-
-  </div>
+      <ProductTable
+        filters={{
+          search: filters.search,
+          categoryId: filters.category
+            ? Number(filters.category)
+            : undefined,
+          stock: filters.stock as
+            | "all"
+            | "available"
+            | "low"
+            | "empty"
+            | undefined,
+          sort: filters.sort as
+            | "newest"
+            | "oldest"
+            | "priceAsc"
+            | "priceDesc"
+            | "nameAsc"
+            | "nameDesc"
+            | undefined,
+        }}
+      />
     </>
   );
 }

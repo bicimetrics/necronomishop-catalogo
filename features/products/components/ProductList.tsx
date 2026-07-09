@@ -1,8 +1,17 @@
 import { getProducts } from "../repositories/product.repository";
+import { ProductFilters } from "../types/product-filter.types";
+
 import ProductRow from "./ProductRow";
 
-export default async function ProductList() {
-  const products = await getProducts();
+interface Props {
+  filters?: ProductFilters;
+}
+
+export default async function ProductList({
+  filters,
+}: Props) {
+
+  const products = await getProducts(filters);
 
   return (
     <>
@@ -14,4 +23,5 @@ export default async function ProductList() {
       ))}
     </>
   );
+
 }

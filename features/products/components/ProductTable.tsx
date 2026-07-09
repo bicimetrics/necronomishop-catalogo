@@ -1,6 +1,14 @@
 import ProductList from "./ProductList";
 
-export default function ProductTable() {
+import { ProductFilters as Filters } from "../types/product-filter.types";
+
+interface Props {
+  filters?: Filters;
+}
+
+export default function ProductTable({
+  filters,
+}: Props) {
   return (
     <div className="overflow-hidden rounded-3xl border border-zinc-800">
 
@@ -23,7 +31,9 @@ export default function ProductTable() {
 
         <tbody>
 
-          <ProductList />
+          <ProductList
+            filters={filters}
+          />
 
         </tbody>
 
