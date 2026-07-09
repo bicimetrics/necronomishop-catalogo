@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { MessageCircle, Package, Sparkles } from "lucide-react";
 import { Product } from "@/types/product";
+import { getImageUrl } from "@/features/products/services/image.service";
 
 const WHATSAPP = "569XXXXXXXX";
 
@@ -53,21 +54,14 @@ Precio: $${product.price.toLocaleString("es-CL")}
 
       <div className="relative overflow-hidden">
 
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={700}
-          height={900}
-          priority
-          className="
-          aspect-[4/5]
-          w-full
-          object-cover
-          transition-transform
-          duration-700
-          group-hover:scale-110
-          "
-        />
+       <Image
+         src={getImageUrl(product.image)}
+         alt={product.name}
+         width={700}
+         height={700}
+         loading="eager"
+         className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
+       />
 
         {/* Gradiente */}
 
