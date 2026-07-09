@@ -1,7 +1,9 @@
 import CategoryList from "./CategoryList";
 
 export default function CategoryTable() {
+
   return (
+
     <div className="overflow-hidden rounded-3xl border border-zinc-800">
 
       <table className="w-full">
@@ -16,6 +18,10 @@ export default function CategoryTable() {
 
             <th>
               Slug
+            </th>
+
+            <th>
+              Descripción
             </th>
 
             <th>
@@ -39,5 +45,7 @@ export default function CategoryTable() {
       </table>
 
     </div>
+
   );
+
 }
