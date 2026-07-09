@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Trash2 } from "lucide-react";
-import { getImageUrl } from "@/features/products/services/image.service";
+import { Pencil } from "lucide-react";
 
 import { Product } from "@/features/products/types/product.types";
+import { getImageUrl } from "@/features/products/services/image.service";
+
+import DeleteButton from "./DeleteButton";
 
 interface Props {
   product: Product & {
@@ -12,16 +14,12 @@ interface Props {
     };
   };
 }
+
 export default function ProductRow({ product }: Props) {
-
   return (
-
-    <tr className="border-t border-zinc-800 hover:bg-zinc-900/40 transition">
-
+    <tr className="border-t border-zinc-800 transition hover:bg-zinc-900/40">
       <td className="p-5">
-
         <div className="flex items-center gap-4">
-
           <Image
             src={getImageUrl(product.image)}
             alt={product.name}
@@ -29,107 +27,74 @@ export default function ProductRow({ product }: Props) {
             height={70}
             className="rounded-xl object-cover"
             style={{
-            width: "70px",
-            height: "70px",
-           }}
+              width: "70px",
+              height: "70px",
+            }}
           />
 
           <div>
-
             <h3 className="font-semibold">
-
               {product.name}
-
             </h3>
 
             <p className="text-sm text-zinc-500">
-
               {product.slug}
-
             </p>
-
           </div>
-
         </div>
-
       </td>
 
       <td className="font-semibold text-lime-400">
-
         ${product.price.toLocaleString("es-CL")}
-
       </td>
 
       <td>
-
         {product.stock}
-
       </td>
 
       <td>
-
-        {product.categories?.name}
-
+        {product.categories?.name ?? "-"}
       </td>
 
       <td>
-
         <span
           className="
-          rounded-full
-          bg-lime-400/10
-          px-3
-          py-1
-          text-xs
-          text-lime-400
+            rounded-full
+            bg-lime-400/10
+            px-3
+            py-1
+            text-xs
+            text-lime-400
           "
         >
-
           Disponible
-
         </span>
-
       </td>
 
       <td>
-
-        <div className="flex gap-3">
+        <div className="flex items-center gap-2">
 
           <Link href={`/admin/productos/${product.id}`}>
-
             <button
               className="
-              rounded-lg
-              p-2
-              hover:bg-zinc-800
+                rounded-lg
+                p-2
+                transition
+                hover:bg-zinc-800
               "
+              title="Editar producto"
             >
-
               <Pencil size={18} />
-
             </button>
-
           </Link>
 
-          <button
-            className="
-            rounded-lg
-            p-2
-            text-red-400
-            hover:bg-red-500/10
-            "
-          >
-
-            <Trash2 size={18} />
-
-          </button>
+          <DeleteButton
+             id={product.id}
+             name={product.name}
+          />
 
         </div>
-
       </td>
-
     </tr>
-
   );
-
 }
