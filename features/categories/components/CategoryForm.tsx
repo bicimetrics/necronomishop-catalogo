@@ -11,7 +11,7 @@ import {
 
 import { Category } from "../types/category.types";
 
-import { generateSlug } from "@/features/products/services/slug.service";
+import { generateSlug } from "@/features/shared/utils/slug";
 
 import { createCategory } from "../actions/createCategory";
 import { updateCategory } from "../actions/updateCategory";

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Product } from "../types/product.types";
-import { generateSlug } from "../services/slug.service";
+import { generateSlug } from "@/features/shared/utils/slug";
 
 export async function createProduct(data: Product) {
   // Generar slug base desde el nombre

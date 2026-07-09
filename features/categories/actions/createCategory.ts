@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 
 import { Category } from "../types/category.types";
 
+import { generateSlug } from "@/features/shared/utils/slug";
+
 export async function createCategory(
   category: Category
 ) {

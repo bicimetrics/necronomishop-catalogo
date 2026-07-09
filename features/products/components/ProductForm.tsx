@@ -9,7 +9,7 @@ import { Product } from "../types/product.types";
 import { saveProduct } from "../services/product.service";
 import { uploadProductImage } from "../services/image.service";
 import { updateProduct } from "../actions/updateProduct";
-import { generateSlug } from "../services/slug.service";
+import { generateSlug } from "../../shared/utils/slug";
 
 import {
   productSchema,

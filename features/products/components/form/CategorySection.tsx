@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Select from "@/components/admin/ui/Select";
-import { getCategories } from "@/features/categories/repository/category.repository";
+import { getCategories } from "@/features/categories/repositories/category.repository";
 
 interface Category {
   id: number;
