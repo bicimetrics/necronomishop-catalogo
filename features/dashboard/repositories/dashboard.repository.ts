@@ -2,6 +2,53 @@ import { supabase } from "@/lib/supabase";
 
 import { DashboardStats } from "../types/dashboard.types";
 
+import { Product } from "@/features/products/types/product.types";
+
+export async function getLatestProducts(): Promise<Product[]> {
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories(
+        name
+      )
+    `)
+    .order("created_at", {
+      ascending: false,
+    })
+    .limit(5);
+
+  if (error) throw error;
+
+  return data as Product[];
+
+}
+
+export async function getLowStockProducts(): Promise<Product[]> {
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories(
+        name
+      )
+    `)
+    .lte("stock", 5)
+    .order("stock", {
+      ascending: true,
+    })
+    .limit(5);
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as Product[];
+
+}
+
 export async function getDashboardStats(): Promise<DashboardStats> {
 
   // Total productos
