@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as notification
+from "@/features/shared/services/notification.service";
 
 import {
   categorySchema,
   CategoryFormData,
 } from "../schemas/category.schema";
 
-import { Category } from "../types/category.types";
+import {
+  Category,
+  CreateCategory,
+  UpdateCategory,
+} from "../types/category.types";
 
 import { generateSlug } from "@/features/shared/utils/slug";
 
@@ -82,14 +88,17 @@ export default function CategoryForm({
       if (category) {
 
         const result =
-          await updateCategory(
-            category.id,
-            data as Category
-          );
+  await updateCategory(
+    category.id,
+    data as UpdateCategory
+  );
 
         if (!result.success) {
 
-          alert(result.message);
+          notification.error(
+            result.message ??
+            "Ha ocurrido un error."
+          );
 
           return;
 
@@ -97,20 +106,30 @@ export default function CategoryForm({
 
       } else {
 
-        const result =
-          await createCategory(
-            data as Category
-          );
+       const result =
+  await createCategory(
+    data as CreateCategory
+  );
 
         if (!result.success) {
 
-          alert(result.message);
-
+notification.error(
+  result.message ??
+  "Ha ocurrido un error."
+);
           return;
 
         }
 
       }
+
+      notification.success(
+
+        category
+          ? "Categoría actualizada correctamente."
+          : "Categoría creada correctamente."
+
+        );
 
       router.push("/admin/categorias");
 
@@ -120,7 +139,9 @@ export default function CategoryForm({
 
       console.error(error);
 
-      alert("Ha ocurrido un error inesperado.");
+      notification.error(
+        "Ha ocurrido un error inesperado."
+      );
 
     } finally {
 

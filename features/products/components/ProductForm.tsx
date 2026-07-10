@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as notification
+from "@/features/shared/services/notification.service";
 
 import {
   Product,
@@ -122,7 +124,9 @@ export default function ProductForm({
 
     if (!product && !image) {
 
-      alert("Debes seleccionar una imagen para el producto.");
+      notification.warning(
+        "Debes subir una imagen antes de guardar el producto."
+      );
 
       return;
 

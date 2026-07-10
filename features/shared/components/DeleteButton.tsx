@@ -3,11 +3,13 @@
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
 
-import { ActionResult }
-from "../types/action-result.types";
+import { ActionResult } from "../types/action-result.types";
+
+import * as notification from "../services/notification.service";
+
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 interface Props {
-
   id: number;
 
   onDelete: (
@@ -15,38 +17,36 @@ interface Props {
   ) => Promise<ActionResult>;
 
   confirmMessage?: string;
-
 }
 
 export default function DeleteButton({
-
   id,
-
   onDelete,
-
   confirmMessage = "¿Eliminar este registro?",
-
 }: Props) {
 
   const [pending, startTransition] =
     useTransition();
 
-  function handleDelete() {
-
-    if (!confirm(confirmMessage)) return;
+  function executeDelete() {
 
     startTransition(async () => {
 
-      const result =
-        await onDelete(id);
+      const result = await onDelete(id);
 
       if (!result.success) {
 
-        alert(result.message);
+        notification.error(
+          result.message ??
+          "No fue posible eliminar el registro."
+        );
 
         return;
-
       }
+
+      notification.success(
+        "Registro eliminado correctamente."
+      );
 
     });
 
@@ -54,23 +54,31 @@ export default function DeleteButton({
 
   return (
 
-    <button
-      onClick={handleDelete}
-      disabled={pending}
-      className="
-        rounded-lg
-        p-2
-        text-red-400
-        transition
-        hover:bg-red-500/10
-        disabled:cursor-not-allowed
-        disabled:opacity-50
-      "
+    <DeleteConfirmDialog
+      title="Eliminar registro"
+      description={confirmMessage}
+      onConfirm={executeDelete}
     >
 
-      <Trash2 size={18} />
+      <button
+        type="button"
+        disabled={pending}
+        className="
+          rounded-lg
+          p-2
+          text-red-400
+          transition
+          hover:bg-red-500/10
+          disabled:cursor-not-allowed
+          disabled:opacity-50
+        "
+      >
 
-    </button>
+        <Trash2 size={18} />
+
+      </button>
+
+    </DeleteConfirmDialog>
 
   );
 

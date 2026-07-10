@@ -8,11 +8,11 @@ import {
   updateCategoryRepository,
 } from "../repositories/category.repository";
 
-import { Category } from "../types/category.types";
+import { UpdateCategory } from "../types/category.types";
 
 export async function updateCategory(
   id: number,
-  category: Category
+  category: UpdateCategory
 ): Promise<ActionResult> {
 
   try {

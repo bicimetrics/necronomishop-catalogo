@@ -8,10 +8,10 @@ import {
   createCategoryRepository,
 } from "../repositories/category.repository";
 
-import { Category } from "../types/category.types";
+import { CreateCategory } from "../types/category.types";
 
 export async function createCategory(
-  category: Category
+  category: CreateCategory
 ): Promise<ActionResult> {
 
   try {
