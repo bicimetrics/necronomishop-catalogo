@@ -115,12 +115,20 @@ export default function ProductForm({
   }
 
   async function onSubmit(
-    data: ProductFormData
-  ) {
+  data: ProductFormData
+) {
 
-    try {
+  try {
 
-      setLoading(true);
+    if (!product && !image) {
+
+      alert("Debes seleccionar una imagen para el producto.");
+
+      return;
+
+    }
+
+    setLoading(true);
 
       const imagePath =
         await resolveImage();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -26,6 +27,9 @@ interface Props {
 export default function CategoryForm({
   category,
 }: Props) {
+
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   const {
@@ -53,52 +57,86 @@ export default function CategoryForm({
   const categoryName = watch("name");
 
   useEffect(() => {
+
     if (category) return;
 
     setValue(
       "slug",
       generateSlug(categoryName ?? "")
     );
-  }, [categoryName, setValue, category]);
+
+  }, [
+    category,
+    categoryName,
+    setValue,
+  ]);
 
   async function onSubmit(
     data: CategoryFormData
   ) {
+
     try {
+
       setLoading(true);
 
       if (category) {
-        await updateCategory(
-          category.id!,
-          data
-        );
 
-        return;
+        const result =
+          await updateCategory(
+            category.id,
+            data as Category
+          );
+
+        if (!result.success) {
+
+          alert(result.message);
+
+          return;
+
+        }
+
+      } else {
+
+        const result =
+          await createCategory(
+            data as Category
+          );
+
+        if (!result.success) {
+
+          alert(result.message);
+
+          return;
+
+        }
+
       }
 
-      const result = await createCategory(
-  data as Category
-);
+      router.push("/admin/categorias");
 
-console.log(result);
-
-if (!result.success) {
-  alert(result.message);
-  return;
-} 
+      router.refresh();
 
     } catch (error) {
+
       console.error(error);
+
+      alert("Ha ocurrido un error inesperado.");
+
     } finally {
+
       setLoading(false);
+
     }
+
   }
 
   return (
+
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-8"
     >
+
       <GeneralSection
         register={register}
         errors={errors}
@@ -107,6 +145,9 @@ if (!result.success) {
       <ActionsSection
         loading={loading}
       />
+
     </form>
+
   );
+
 }
