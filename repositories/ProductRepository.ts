@@ -26,6 +26,7 @@ export default class ProductRepository {
   static async getAll(
   filters?: {
     search?: string;
+    categoryId?: number;
   }
 ): Promise<Product[]> {
 
@@ -38,6 +39,15 @@ if (filters?.search) {
   query = query.ilike(
     "name",
     `%${filters.search}%`
+  );
+
+}
+
+if (filters?.categoryId) {
+
+  query = query.eq(
+    "category_id",
+    filters.categoryId
   );
 
 }

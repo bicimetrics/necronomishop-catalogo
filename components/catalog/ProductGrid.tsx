@@ -3,10 +3,12 @@ import ProductCard from "./ProductCard";
 
 interface Props {
   search?: string;
+  categoryId?: number;
 }
 
 export default async function ProductGrid({
   search,
+  categoryId,
 }: Props) {
 
   // Paso siguiente:
@@ -14,9 +16,10 @@ export default async function ProductGrid({
   // Por ahora solamente dejamos preparado
   // el componente.
 
-  const products =
+ const products =
   await ProductService.getProducts({
     search,
+    categoryId,
   });
 
   return (

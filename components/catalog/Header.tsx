@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Header() {
@@ -109,11 +108,24 @@ export default function Header() {
               </a>
 
               <a
-                href="https://wa.me/56900000000"
-                className="transition hover:text-lime-400"
-              >
-                Contacto
-              </a>
+  href="https://wa.me/569XXXXXXXX"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="
+    rounded-full
+    border
+    border-lime-400
+    bg-lime-400
+    px-5
+    py-2
+    text-black
+    transition
+    hover:scale-105
+    hover:bg-lime-300
+  "
+>
+  Comprar
+</a>
 
             </nav>
 
@@ -121,41 +133,6 @@ export default function Header() {
 
         </div>
       </header>
-
-      {/* Buscador */}
-
-      {!scrolled && (
-        <section className="mx-auto max-w-7xl px-8 pt-6">
-
-          <div className="relative w-[1200px]">
-
-            <Search
-              size={20}
-              className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-            />
-
-            <input
-              placeholder="Buscar videojuegos, VHS, figuras..."
-              className="
-                h-16
-                w-full
-                rounded-2xl
-                border
-                border-zinc-800
-                bg-[#121212]
-                pl-14
-                pr-6
-                text-lg
-                outline-none
-                transition
-                focus:border-lime-400
-              "
-            />
-
-          </div>
-
-        </section>
-      )}
     </>
   );
 }

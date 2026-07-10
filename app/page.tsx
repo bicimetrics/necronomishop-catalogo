@@ -6,6 +6,7 @@ import ProductGrid from "@/components/catalog/ProductGrid";
 interface Props {
   searchParams: Promise<{
     search?: string;
+    category?: string;
   }>;
 }
 
@@ -28,13 +29,27 @@ export default async function Home({
         />
 
         <div className="mt-8">
-          <Filters />
+          
+            <Filters
+          search={params.search}
+          selectedCategory={
+           params.category
+           ? Number(params.category)
+            : undefined
+            }
+          />
+
         </div>
 
         <div className="mt-10">
 
           <ProductGrid
             search={params.search}
+            categoryId={
+            params.category
+            ? Number(params.category)
+            : undefined
+          }
           />
 
         </div>
