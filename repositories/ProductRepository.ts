@@ -23,14 +23,34 @@ export async function existsProductSlug(
 }
 export default class ProductRepository {
 
-  static async getAll(): Promise<Product[]> {
+  static async getAll(
+  filters?: {
+    search?: string;
+  }
+): Promise<Product[]> {
 
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", {
-        ascending: false,
-      });
+    let query = supabase
+  .from("products")
+  .select("*");
+
+if (filters?.search) {
+
+  query = query.ilike(
+    "name",
+    `%${filters.search}%`
+  );
+
+}
+
+const {
+  data,
+  error,
+} = await query.order(
+  "created_at",
+  {
+    ascending: false,
+  }
+);
 
     if (error) {
       throw error;

@@ -1,11 +1,26 @@
 import ProductService from "@/app/services/ProductService";
 import ProductCard from "./ProductCard";
 
-export default async function ProductGrid() {
+interface Props {
+  search?: string;
+}
 
-  const products = await ProductService.getProducts();
+export default async function ProductGrid({
+  search,
+}: Props) {
+
+  // Paso siguiente:
+  // utilizaremos "search" para filtrar.
+  // Por ahora solamente dejamos preparado
+  // el componente.
+
+  const products =
+  await ProductService.getProducts({
+    search,
+  });
 
   return (
+
     <section
       className="
         grid
@@ -13,12 +28,18 @@ export default async function ProductGrid() {
         gap-8
       "
     >
+
       {products.map((product) => (
+
         <ProductCard
           key={product.id}
           product={product}
         />
+
       ))}
+
     </section>
+
   );
+
 }
