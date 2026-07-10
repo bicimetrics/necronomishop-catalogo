@@ -3,11 +3,16 @@
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
 
+import { ActionResult }
+from "../types/action-result.types";
+
 interface Props {
 
   id: number;
 
-  onDelete: (id: number) => Promise<void>;
+  onDelete: (
+    id: number
+  ) => Promise<ActionResult>;
 
   confirmMessage?: string;
 
@@ -32,7 +37,16 @@ export default function DeleteButton({
 
     startTransition(async () => {
 
-      await onDelete(id);
+      const result =
+        await onDelete(id);
+
+      if (!result.success) {
+
+        alert(result.message);
+
+        return;
+
+      }
 
     });
 
@@ -44,11 +58,13 @@ export default function DeleteButton({
       onClick={handleDelete}
       disabled={pending}
       className="
-      rounded-lg
-      p-2
-      text-red-400
-      hover:bg-red-500/10
-      disabled:opacity-50
+        rounded-lg
+        p-2
+        text-red-400
+        transition
+        hover:bg-red-500/10
+        disabled:cursor-not-allowed
+        disabled:opacity-50
       "
     >
 

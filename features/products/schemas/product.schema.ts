@@ -25,12 +25,13 @@ export const productSchema = z.object({
     .number()
     .min(1, "Selecciona una categoría"),
 
-  // Estos dos campos no los controla React Hook Form
-  // sino el ImageUploader y la lógica del formulario.
-
   image: z.string().optional(),
 
   badge: z.string().optional(),
 });
 
-export type ProductFormData = z.infer<typeof productSchema>;
+// Datos que llegan desde el formulario
+export type ProductFormInput = z.input<typeof productSchema>;
+
+// Datos ya validados por Zod
+export type ProductFormData = z.output<typeof productSchema>;

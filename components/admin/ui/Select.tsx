@@ -1,3 +1,5 @@
+import { UseFormRegisterReturn } from "react-hook-form";
+
 interface Option {
   value: number | string;
   label: string;
@@ -7,7 +9,7 @@ interface Props {
   label: string;
   options: Option[];
   error?: string;
-  register: any;
+  register: UseFormRegisterReturn;
 }
 
 export default function Select({
@@ -39,7 +41,7 @@ export default function Select({
         "
       >
         <option value="">
-          Selecciona una categoría
+          Selecciona una opción
         </option>
 
         {options.map((option) => (

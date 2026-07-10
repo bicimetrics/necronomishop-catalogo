@@ -1,9 +1,17 @@
+import {
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
+
 import Input from "@/components/admin/ui/Input";
 import TextArea from "@/components/admin/ui/TextArea";
 
+import { CategoryFormData } from "../../schemas/category.schema";
+
+
 interface Props {
-  register: any;
-  errors: any;
+  register: UseFormRegister<CategoryFormData>;
+  errors: FieldErrors<CategoryFormData>;
 }
 
 export default function GeneralSection({
@@ -12,6 +20,7 @@ export default function GeneralSection({
 }: Props) {
   return (
     <div className="rounded-3xl border border-zinc-800 bg-[#111] p-8">
+
       <h2 className="mb-8 text-xl font-bold">
         Información general
       </h2>
@@ -29,7 +38,7 @@ export default function GeneralSection({
           <Input
             label="Slug"
             readOnly
-            className="bg-zinc-900 text-zinc-500 cursor-not-allowed"
+            className="bg-zinc-900 cursor-not-allowed text-zinc-500"
             {...register("slug")}
           />
 
@@ -46,6 +55,7 @@ export default function GeneralSection({
         />
 
       </div>
+
     </div>
   );
 }

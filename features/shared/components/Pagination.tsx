@@ -1,12 +1,8 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 interface Props {
   page: number;
-
   totalPages: number;
-
   onPageChange: (page: number) => void;
 }
 
@@ -16,113 +12,48 @@ export default function Pagination({
   onPageChange,
 }: Props) {
 
-  if (totalPages <= 1) return null;
-
-  function changePage(newPage: number) {
-
-    if (newPage < 1) return;
-
-    if (newPage > totalPages) return;
-
-    onPageChange(newPage);
-
+  if (totalPages <= 1) {
+    return null;
   }
 
   return (
-
-    <div
-      className="
-        mt-8
-        flex
-        items-center
-        justify-center
-        gap-2
-      "
-    >
+    <div className="flex items-center justify-between">
 
       <button
-        onClick={() => changePage(page - 1)}
-        disabled={page === 1}
+        disabled={page <= 1}
+        onClick={() => onPageChange(page - 1)}
         className="
-          rounded-xl
+          rounded-lg
           border
-          border-zinc-800
-          p-2
-          transition
-          hover:border-lime-400
-          disabled:cursor-not-allowed
+          border-zinc-700
+          px-4
+          py-2
           disabled:opacity-40
         "
       >
-
-        <ChevronLeft size={18} />
-
+        Anterior
       </button>
 
-      {Array.from(
-        {
-          length: totalPages,
-        },
-        (_, index) => {
-
-          const current = index + 1;
-
-          return (
-
-            <button
-
-              key={current}
-
-              onClick={() =>
-                changePage(current)
-              }
-
-              className={`
-                h-10
-                w-10
-                rounded-xl
-                transition
-
-                ${
-                  page === current
-                    ? "bg-lime-400 text-black"
-                    : "border border-zinc-800 hover:border-lime-400"
-                }
-              `}
-            >
-
-              {current}
-
-            </button>
-
-          );
-
-        }
-      )}
+      <span className="text-sm text-zinc-400">
+        Página {page} de {totalPages}
+      </span>
 
       <button
-        onClick={() =>
-          changePage(page + 1)
-        }
-        disabled={page === totalPages}
+        disabled={page >= totalPages}
+        onClick={() => onPageChange(page + 1)}
         className="
-          rounded-xl
+          rounded-lg
           border
-          border-zinc-800
-          p-2
-          transition
-          hover:border-lime-400
-          disabled:cursor-not-allowed
+          border-zinc-700
+          px-4
+          py-2
           disabled:opacity-40
         "
       >
-
-        <ChevronRight size={18} />
-
+        Siguiente
       </button>
 
     </div>
-
   );
 
 }

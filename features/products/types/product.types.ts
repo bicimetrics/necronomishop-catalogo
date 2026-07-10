@@ -1,5 +1,5 @@
 export interface Product {
-  id?: number;
+  id: number;
 
   name: string;
 
@@ -22,6 +22,24 @@ export interface Product {
   categories?: {
     name: string;
   };
+}
+
+export interface CreateProduct {
+  name: string;
+
+  slug: string;
+
+  description: string;
+
+  price: number;
+
+  stock: number;
+
+  badge?: string;
+
+  image: string;
+
+  category_id: number;
 }
 
 export interface Category {

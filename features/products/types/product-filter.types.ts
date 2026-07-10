@@ -1,5 +1,4 @@
 export type ProductStockFilter =
-  | "all"
   | "available"
   | "low"
   | "empty";
@@ -21,5 +20,9 @@ export interface ProductFilters {
   stock?: ProductStockFilter;
 
   sort?: ProductSort;
+
+  page?: number;
+
+  perPage?: number;
 
 }

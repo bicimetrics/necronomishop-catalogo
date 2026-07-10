@@ -1,6 +1,26 @@
 import { supabase } from "@/lib/supabase";
 import { Product } from "@/types/product";
 
+export async function existsProductSlug(
+  slug: string
+): Promise<boolean> {
+
+  const {
+    data,
+    error,
+  } = await supabase
+    .from("products")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return !!data;
+
+}
 export default class ProductRepository {
 
   static async getAll(): Promise<Product[]> {

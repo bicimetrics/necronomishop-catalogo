@@ -1,60 +1,41 @@
 import Header from "@/components/admin/layout/Header";
+import DashboardCards from "@/features/dashboard/components/DashboardCards";
+import DashboardLatestProducts from "@/features/dashboard/components/DashboardLatestProducts";
 
-import ProductFilters from "@/features/products/components/ProductFilters";
-import ProductTable from "@/features/products/components/ProductTable";
+import DashboardLowStock
+from "@/features/dashboard/components/DashboardLowStock";
+import DashboardQuickActions
+from "@/features/dashboard/components/DashboardQuickActions";
 
-import { getCategories } from "@/features/categories/repositories/category.repository";
-
-interface Props {
-  searchParams: Promise<{
-    search?: string;
-    category?: string;
-    stock?: string;
-    sort?: string;
-  }>;
-}
-
-export default async function ProductosPage({
-  searchParams,
-}: Props) {
-
-  const filters = await searchParams;
-
-  const categories = await getCategories();
-
+export default function AdminPage() {
   return (
     <>
       <Header
-        title="Productos"
-        subtitle="Administra tu catálogo."
+        title="Dashboard"
+        subtitle="Resumen general del sistema."
       />
 
-      <ProductFilters
-        categories={categories}
-      />
+      <DashboardCards />
 
-      <ProductTable
-        filters={{
-          search: filters.search,
-          categoryId: filters.category
-            ? Number(filters.category)
-            : undefined,
-          stock: filters.stock as
-            | "all"
-            | "available"
-            | "low"
-            | "empty"
-            | undefined,
-          sort: filters.sort as
-            | "newest"
-            | "oldest"
-            | "priceAsc"
-            | "priceDesc"
-            | "nameAsc"
-            | "nameDesc"
-            | undefined,
-        }}
-      />
+      <div
+        className="
+        mt-8
+        grid
+        gap-6
+        xl:grid-cols-2"
+      >
+
+      <DashboardLatestProducts />
+
+    <DashboardLowStock />
+
+    <div className="mt-6">
+
+      <DashboardQuickActions />
+
+    </div>
+
+  </div>
     </>
   );
 }

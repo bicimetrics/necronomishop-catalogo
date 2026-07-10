@@ -4,15 +4,21 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Product } from "../types/product.types";
+import {
+  Product,
+  CreateProduct,
+} from "../types/product.types";
 
-import { saveProduct } from "../services/product.service";
 import { uploadProductImage } from "../services/image.service";
+
+import { createProduct } from "../actions/createProduct";
 import { updateProduct } from "../actions/updateProduct";
+
 import { generateSlug } from "../../shared/utils/slug";
 
 import {
   productSchema,
+  ProductFormInput,
   ProductFormData,
 } from "../schemas/product.schema";
 
@@ -22,15 +28,26 @@ import CategorySection from "./form/CategorySection";
 import ImageSection from "./form/ImageSection";
 import ActionsSection from "./form/ActionsSection";
 
+interface Category {
+  id: number;
+  name: string;
+}
+
 interface Props {
   product?: Product;
+  categories: Category[];
 }
 
 export default function ProductForm({
   product,
+  categories,
 }: Props) {
-  const [image, setImage] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
+
+  const [image, setImage] =
+    useState<File | null>(null);
+
+  const [loading, setLoading] =
+    useState(false);
 
   const {
     register,
@@ -38,7 +55,11 @@ export default function ProductForm({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<ProductFormData>({
+  } = useForm<
+    ProductFormInput,
+    undefined,
+    ProductFormData
+  >({
     resolver: zodResolver(productSchema),
 
     defaultValues: product
@@ -67,57 +88,104 @@ export default function ProductForm({
   const productName = watch("name");
 
   useEffect(() => {
-    if (product) return; // No regenerar al editar
+
+    if (product) return;
 
     setValue(
       "slug",
       generateSlug(productName ?? "")
     );
-  }, [productName, setValue, product]);
 
-  async function onSubmit(data: ProductFormData) {
+  }, [
+    product,
+    productName,
+    setValue,
+  ]);
+
+  async function resolveImage() {
+
+    if (!image) {
+
+      return product?.image ?? "";
+
+    }
+
+    return uploadProductImage(image);
+
+  }
+
+  async function onSubmit(
+    data: ProductFormData
+  ) {
+
     try {
+
       setLoading(true);
 
-      if (product) {
-        let imagePath = product.image;
+      const imagePath =
+        await resolveImage();
 
-        if (image) {
-          imagePath = await uploadProductImage(image);
+      if (product) {
+
+        if (!product.id) {
+
+          throw new Error(
+            "El producto no tiene ID."
+          );
+
         }
 
-        await updateProduct(product.id!, {
-          id: product.id,
-          name: data.name,
-          slug: data.slug,
-          description: data.description,
-          price: data.price,
-          stock: data.stock,
-          badge: data.badge,
-          image: imagePath,
-          category_id: data.category_id,
-       });
+        await updateProduct(
+          product.id,
+          {
+            id: product.id,
+            name: data.name,
+            slug: data.slug,
+            description: data.description,
+            price: data.price,
+            stock: data.stock,
+            badge: data.badge,
+            image: imagePath,
+            category_id: data.category_id,
+          }
+        );
 
         return;
+
       }
 
-      await saveProduct(
-        data as Product,
-        image
-      );
+      const productData: CreateProduct = {
+        name: data.name,
+        slug: data.slug,
+        description: data.description,
+        price: data.price,
+        stock: data.stock,
+        badge: data.badge,
+        image: imagePath,
+        category_id: data.category_id,
+      };
+
+      await createProduct(productData);
 
     } catch (error) {
+
       console.error(error);
+
     } finally {
+
       setLoading(false);
+
     }
+
   }
 
   return (
+
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-8"
     >
+
       <GeneralSection
         register={register}
         errors={errors}
@@ -128,6 +196,7 @@ export default function ProductForm({
       />
 
       <CategorySection
+        categories={categories}
         register={register}
         errors={errors}
       />
@@ -139,6 +208,9 @@ export default function ProductForm({
       <ActionsSection
         loading={loading}
       />
+
     </form>
+
   );
+
 }

@@ -7,13 +7,23 @@ import {
   createProductRepository,
 } from "../repositories/product.repository";
 
-import { Product } from "../types/product.types";
+import { generateUniqueSlug }
+from "../services/slug.service";
+
+import { CreateProduct } from "../types/product.types";
 
 export async function createProduct(
-  product: Product
+  product: CreateProduct
 ) {
 
-  await createProductRepository(product);
+  product.slug =
+    await generateUniqueSlug(
+      product.name
+    );
+
+  await createProductRepository(
+    product
+  );
 
   revalidatePath("/");
 

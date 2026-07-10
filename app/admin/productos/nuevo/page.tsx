@@ -2,15 +2,25 @@ import Header from "@/components/admin/layout/Header";
 
 import ProductForm from "@/features/products/components/ProductForm";
 
-export default function NuevoProductoPage() {
+import { getCategories } from "@/features/categories/repositories/category.repository";
+
+export default async function NuevoProductoPage() {
+
+  const categories = await getCategories();
+
   return (
     <>
+
       <Header
         title="Nuevo producto"
-        subtitle="Agrega un producto al catálogo."
+        subtitle="Agrega un nuevo producto al catálogo."
       />
 
-      <ProductForm />
+      <ProductForm
+        categories={categories}
+      />
+
     </>
   );
+
 }

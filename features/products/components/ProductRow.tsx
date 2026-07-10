@@ -89,8 +89,7 @@ export default function ProductRow({ product }: Props) {
           </Link>
 
           <DeleteButton
-             id={product.id}
-             name={product.name}
+           id={product.id}
           />
 
         </div>

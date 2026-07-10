@@ -76,9 +76,16 @@ export default function CategoryForm({
         return;
       }
 
-      await createCategory(
-        data as Category
-      );
+      const result = await createCategory(
+  data as Category
+);
+
+console.log(result);
+
+if (!result.success) {
+  alert(result.message);
+  return;
+} 
 
     } catch (error) {
       console.error(error);

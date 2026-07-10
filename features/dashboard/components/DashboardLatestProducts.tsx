@@ -2,16 +2,17 @@ import Image from "next/image";
 import { Package } from "lucide-react";
 import DashboardPanel from "./DashboardPanel";
 
-import { getLatestProducts }
-from "../repositories/dashboard.repository";
+import { getProducts }
+from "@/features/products/repositories/product-list.repository";
 
 import { getImageUrl }
 from "@/features/products/services/image.service";
 
 export default async function DashboardLatestProducts() {
 
-  const products =
-    await getLatestProducts();
+  const products = (
+  await getProducts()
+  ).slice(0, 5);
 
   return (
 

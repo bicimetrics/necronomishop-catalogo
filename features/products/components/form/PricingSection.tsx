@@ -1,7 +1,15 @@
+import {
+  UseFormRegister,
+} from "react-hook-form";
+
 import Input from "@/components/admin/ui/Input";
 
+import {
+  ProductFormInput,
+} from "../../schemas/product.schema";
+
 interface Props {
-  register: any;
+  register: UseFormRegister<ProductFormInput>;
 }
 
 export default function PricingSection({

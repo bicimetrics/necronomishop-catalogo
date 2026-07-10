@@ -1,8 +1,13 @@
-"use client";
+import {
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
 
-import { useEffect, useState } from "react";
 import Select from "@/components/admin/ui/Select";
-import { getCategories } from "@/features/categories/repositories/category.repository";
+
+import {
+  ProductFormInput,
+} from "../../schemas/product.schema";
 
 interface Category {
   id: number;
@@ -10,25 +15,18 @@ interface Category {
 }
 
 interface Props {
-  register: any;
-  errors: any;
+  categories: Category[];
+
+  register: UseFormRegister<ProductFormInput>;
+
+  errors: FieldErrors<ProductFormInput>;
 }
 
 export default function CategorySection({
+  categories,
   register,
   errors,
 }: Props) {
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    async function loadCategories() {
-      const data = await getCategories();
-      setCategories(data);
-    }
-
-    loadCategories();
-  }, []);
-
   return (
     <div className="rounded-3xl border border-zinc-800 bg-[#111] p-8">
 
