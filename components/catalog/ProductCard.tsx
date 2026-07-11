@@ -2,23 +2,20 @@ import Image from "next/image";
 import { MessageCircle, Package, Sparkles } from "lucide-react";
 import { Product } from "@/types/product";
 import { getImageUrl } from "@/features/products/services/image.service";
-
-const WHATSAPP = "569XXXXXXXX";
+import {
+  createWhatsAppLink,
+} from "@/features/shared/utils/whatsapp";
 
 interface Props {
   product: Product;
 }
+interface Props {
+  product: Product;
+}
 
-export default function ProductCard({ product }: Props) {
-  const mensaje = encodeURIComponent(`Hola 👋
-
-Me interesa este producto.
-
-${product.name}
-
-Precio: $${product.price.toLocaleString("es-CL")}
-
-¿Sigue disponible?`);
+export default function ProductCard({
+  product,
+}: Props) {
 
   const stockColor =
     product.stock === 0
@@ -180,7 +177,11 @@ Precio: $${product.price.toLocaleString("es-CL")}
         {/* Botón */}
 
         <a
-          href={`https://wa.me/${WHATSAPP}?text=${mensaje}`}
+          href={createWhatsAppLink(
+            product.name,
+            product.price,
+            product.slug
+         )}
           target="_blank"
           rel="noopener noreferrer"
           className="
