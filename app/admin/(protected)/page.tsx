@@ -4,11 +4,10 @@ import DashboardLatestProducts from "@/features/dashboard/components/DashboardLa
 
 import DashboardLowStock
 from "@/features/dashboard/components/DashboardLowStock";
-import DashboardQuickActions
-from "@/features/dashboard/components/DashboardQuickActions";
 
 import LogoutButton
 from "@/features/auth/components/LogoutButton";
+
 
 export default function AdminPage() {
   return (
@@ -16,7 +15,6 @@ export default function AdminPage() {
       <Header
         title="Dashboard"
          subtitle="Resumen general del sistema."
-         actions={<LogoutButton />}
       />
 
       <DashboardCards />
@@ -33,11 +31,6 @@ export default function AdminPage() {
 
     <DashboardLowStock />
 
-    <div className="mt-6">
-
-      <DashboardQuickActions />
-
-    </div>
 
   </div>
     </>

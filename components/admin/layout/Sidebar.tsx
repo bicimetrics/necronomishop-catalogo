@@ -1,100 +1,178 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
-    LayoutDashboard,
-    Package,
-    FolderTree,
-    Settings,
-    LogOut
+  FolderTree,
+  LayoutDashboard,
+  Package,
+  Settings,
+  User,
 } from "lucide-react";
 
-export default function Sidebar(){
+import LogoutButton from "@/features/auth/components/LogoutButton";
 
-return(
+interface Props {
+  user: {
+    name: string;
+    email: string;
+  };
+}
 
-<aside className="w-72 border-r border-zinc-800 bg-[#111]">
+const menu = [
+  {
+    href: "/admin",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    href: "/admin/productos",
+    label: "Productos",
+    icon: Package,
+  },
+  {
+    href: "/admin/categorias",
+    label: "Categorías",
+    icon: FolderTree,
+  },
+  {
+    href: "/admin/configuracion",
+    label: "Configuración",
+    icon: Settings,
+  },
+];
 
-<div className="border-b border-zinc-800 p-8">
+export default function Sidebar({
+  user,
+}: Props) {
 
-<h1 className="text-3xl font-black text-lime-400">
+  const pathname = usePathname();
 
-NECRONOMISHOP
+  return (
 
-</h1>
+    <aside
+      className="
+        flex
+        h-screen
+        w-72
+        flex-col
+        border-r
+        border-zinc-800
+        bg-[#111]
+      "
+    >
 
-<p className="mt-2 text-zinc-500">
+      {/* Logo */}
 
-Administrador
+      <div className="border-b border-zinc-800 p-8">
 
-</p>
+        <h1 className="text-3xl font-black text-lime-400">
+          NECRONOMISHOP
+        </h1>
 
-</div>
+        <p className="mt-2 text-zinc-500">
+          Panel de Administración
+        </p>
 
-<nav className="mt-6 space-y-2 px-4">
+      </div>
 
-<Link
-href="/admin"
-className="flex items-center gap-3 rounded-xl px-4 py-4 hover:bg-zinc-900"
->
+      {/* Usuario */}
 
-<LayoutDashboard size={20}/>
+      <div className="border-b border-zinc-800 p-6">
 
-Dashboard
+        <div className="flex items-center gap-4">
 
-</Link>
+          <div
+            className="
+              flex
+              h-12
+              w-12
+              items-center
+              justify-center
+              rounded-full
+              bg-zinc-800
+            "
+          >
 
-<Link
-href="/admin/productos"
-className="flex items-center gap-3 rounded-xl px-4 py-4 hover:bg-zinc-900"
->
+            <User size={20} />
 
-<Package size={20}/>
+          </div>
 
-Productos
+          <div>
 
-</Link>
+            <p className="font-semibold">
 
-<Link
-href="/admin/categorias"
-className="flex items-center gap-3 rounded-xl px-4 py-4 hover:bg-zinc-900"
->
+              {user.name}
 
-<FolderTree size={20}/>
+            </p>
 
-Categorías
+            <p className="text-sm text-zinc-500">
 
-</Link>
+              {user.email}
 
-<Link
-href="/admin/configuracion"
-className="flex items-center gap-3 rounded-xl px-4 py-4 hover:bg-zinc-900"
->
+            </p>
 
-<Settings size={20}/>
+          </div>
 
-Configuración
+        </div>
 
-</Link>
+      </div>
 
-</nav>
+      {/* Menú */}
 
-<div className="absolute bottom-8 w-72 px-4">
+      <nav className="flex-1 space-y-2 p-4">
 
-<button
-className="flex w-full items-center gap-3 rounded-xl bg-red-500 px-4 py-4 font-semibold"
->
+        {menu.map((item) => {
 
-<LogOut size={18}/>
+          const Icon = item.icon;
 
-Cerrar sesión
+          const active =
+            pathname === item.href;
 
-</button>
+          return (
 
-</div>
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`
+                flex
+                items-center
+                gap-3
+                rounded-xl
+                px-4
+                py-4
+                transition
+                ${
+                  active
+                    ? "bg-lime-400 text-black"
+                    : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                }
+              `}
+            >
 
-</aside>
+              <Icon size={20} />
 
-);
+              {item.label}
+
+            </Link>
+
+          );
+
+        })}
+
+      </nav>
+
+      {/* Footer */}
+
+      <div className="border-t border-zinc-800 p-4">
+
+        <LogoutButton />
+
+      </div>
+
+    </aside>
+
+  );
 
 }
