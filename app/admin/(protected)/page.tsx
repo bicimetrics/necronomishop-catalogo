@@ -7,12 +7,16 @@ from "@/features/dashboard/components/DashboardLowStock";
 import DashboardQuickActions
 from "@/features/dashboard/components/DashboardQuickActions";
 
+import LogoutButton
+from "@/features/auth/components/LogoutButton";
+
 export default function AdminPage() {
   return (
     <>
       <Header
         title="Dashboard"
-        subtitle="Resumen general del sistema."
+         subtitle="Resumen general del sistema."
+         actions={<LogoutButton />}
       />
 
       <DashboardCards />

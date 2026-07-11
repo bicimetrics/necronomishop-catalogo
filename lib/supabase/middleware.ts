@@ -48,8 +48,19 @@ export async function updateSession(
     }
   );
 
-  await supabase.auth.getUser();
+const {
+  data: { user },
+  error,
+} = await supabase.auth.getUser();
 
-  return response;
+console.log(
+  "Middleware User:",
+  user?.email ?? "SIN SESIÓN"
+);
+
+
+
+return response;
+
 
 }
