@@ -62,72 +62,53 @@ export default function Header() {
               </Link>
 
               {!scrolled && (
-               <p className="mt-2 text-sm font-medium tracking-wide">
+               <p className="mt-2 text-base font-semibold tracking-wider">
 
-                 <span className="text-lime-300">
-                   Tienda cósmica
+                 <span className="text-zinc-100">
+                  Tienda cósmica
                 </span>
 
                 <span className="mx-2 text-zinc-600">
     |
                 </span>
 
-                <span className="text-violet-400">
+               <span className="text-fuchsia-400">
                   Coleccionismo Retro y Actual
-                </span>
+              </span>
 
                 </p>
               )}
 
             </div>
 
-            <nav className="flex gap-10 text-sm font-semibold uppercase tracking-wider">
+           <nav className="flex gap-10 text-sm font-semibold uppercase tracking-wider">
 
-              <Link
-                href="/"
-                className="
-                  relative
-                  text-lime-400
-                  after:absolute
-                  after:-bottom-2
-                  after:left-0
-                  after:h-[2px]
-                  after:w-full
-                  after:bg-lime-400
-                "
-              >
-                Catálogo
-              </Link>
+  <Link
+    href="/"
+    className="
+      relative
+      text-lime-400
+      after:absolute
+      after:-bottom-2
+      after:left-0
+      after:h-[2px]
+      after:w-full
+      after:bg-lime-400
+    "
+  >
+    Catálogo
+  </Link>
 
-              <a
-                href="https://instagram.com/necronomishop"
-                target="_blank"
-                className="transition hover:text-lime-400"
-              >
-                Instagram
-              </a>
+  <a
+    href="https://instagram.com/necronomishop"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="transition hover:text-lime-400"
+  >
+    Instagram
+  </a>
 
-              <a
-  href="https://wa.me/569XXXXXXXX"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="
-    rounded-full
-    border
-    border-lime-400
-    bg-lime-400
-    px-5
-    py-2
-    text-black
-    transition
-    hover:scale-105
-    hover:bg-lime-300
-  "
->
-  Comprar
-</a>
-
-            </nav>
+</nav>
 
           </div>
 
