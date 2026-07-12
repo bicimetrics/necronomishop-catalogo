@@ -6,6 +6,9 @@ import {
   createWhatsAppLink,
 } from "@/features/shared/utils/whatsapp";
 
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
 interface Props {
   product: Product;
 }
@@ -32,8 +35,14 @@ export default function ProductCard({
       : `${product.stock} disponibles`;
 
   return (
-    <article
-      className="
+  
+    <Link
+  href={`/productos/${product.slug}`}
+  className="block"
+>
+
+  <article
+    className="
       group
       overflow-hidden
       rounded-[28px]
@@ -45,8 +54,10 @@ export default function ProductCard({
       hover:-translate-y-2
       hover:border-lime-400
       hover:shadow-[0_30px_70px_rgba(163,255,18,.12)]
-      "
-    >
+    "
+  > 
+
+
       {/* Imagen */}
 
       <div className="relative overflow-hidden">
@@ -173,43 +184,47 @@ export default function ProductCard({
           </div>
 
         </div>
+        <div
+  className="
+    flex
+    items-center
+    justify-between
+    border-t
+    border-zinc-800
+    pt-5
+  "
+>
 
-        {/* Botón */}
+  <span
+    className="
+      text-sm
+      font-semibold
+      uppercase
+      tracking-wider
+      text-lime-400
+    "
+  >
 
-        <a
-          href={createWhatsAppLink(
-            product.name,
-            product.price,
-            product.slug
-         )}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-          flex
-          h-14
-          items-center
-          justify-center
-          gap-3
-          rounded-xl
-          bg-gradient-to-r
-          from-lime-400
-          to-lime-500
-          font-bold
-          text-black
-          transition-all
-          duration-300
-          hover:scale-[1.02]
-          active:scale-95
-          "
-        >
-          <MessageCircle size={22} />
+    Ver detalle
 
-          Comprar por WhatsApp
+  </span>
 
-        </a>
+  <ArrowRight
+    size={18}
+    className="
+      text-lime-400
+      transition-transform
+      duration-300
+      group-hover:translate-x-1
+    "
+  />
+
+</div>
 
       </div>
 
-    </article>
+        </article>
+
+</Link>
   );
 }

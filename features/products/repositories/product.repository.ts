@@ -83,4 +83,64 @@ export async function deleteProductRepository(
     throw error;
   }
 
+} 
+
+  export async function getProductBySlug(
+  slug: string
+): Promise<Product | null> {
+
+  const {
+    data,
+    error,
+  } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories(
+        name
+      )
+    `)
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+
+    return null;
+
+  }
+
+  return data as Product;
+
 }
+
+export async function getRelatedProducts(
+  categoryId: number,
+  currentId: number,
+  limit = 4
+): Promise<Product[]> {
+
+  const {
+    data,
+    error,
+  } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories(
+        name
+      )
+    `)
+    .eq("category_id", categoryId)
+    .neq("id", currentId)
+    .limit(limit);
+
+  if (error) {
+
+    throw error;
+
+  }
+
+  return data as Product[];
+
+}
+
