@@ -1,26 +1,26 @@
-import { Package, Sparkles } from "lucide-react";
+import {
+  BadgeCheck,
+  Package,
+  Sparkles,
+  AlertTriangle,
+  XCircle,
+} from "lucide-react";
 
-import { Product } from "@/types/product";
+import { Product } from "@/features/products/types/product.types";
 
 interface Props {
   product: Product;
 }
 
-export default function ProductInfo({
-  product,
-}: Props) {
+export default function ProductInfo({ product }: Props) {
 
-  const stockColor =
-    product.stock > 0
-      ? "text-lime-400"
-      : "text-red-400";
+  const hasStock = product.stock > 0;
+  const lowStock = product.stock > 0 && product.stock <= 3;
 
   return (
-
-    <div className="space-y-8">
+    <div className="space-y-10">
 
       {product.badge && (
-
         <div
           className="
             inline-flex
@@ -35,18 +35,15 @@ export default function ProductInfo({
             text-black
           "
         >
-
-          <Sparkles size={16}/>
+          <Sparkles size={16} />
 
           {product.badge}
-
         </div>
-
       )}
 
       <div>
 
-        <h1 className="text-5xl font-black">
+        <h1 className="text-5xl font-black leading-tight">
 
           {product.name}
 
@@ -54,54 +51,125 @@ export default function ProductInfo({
 
         <p className="mt-3 text-zinc-500">
 
-          Colección Necronomishop
+          Coleccionismo Retro y Actual
 
         </p>
 
       </div>
 
-      <div>
+      <div className="space-y-2">
 
-        <p className="text-zinc-500">
+        <span className="text-sm uppercase tracking-widest text-zinc-500">
 
           Precio
 
-        </p>
+        </span>
 
-        <p className="mt-2 text-5xl font-black text-lime-400">
+        <div className="text-5xl font-black text-lime-400">
 
           ${product.price.toLocaleString("es-CL")}
 
-        </p>
+        </div>
 
       </div>
 
       <div
         className="
-          flex
-          items-center
-          gap-3
+          rounded-2xl
+          border
+          border-zinc-800
+          bg-zinc-900/40
+          p-5
         "
       >
 
-        <Package
-          size={20}
-          className={stockColor}
-        />
+        <div className="flex items-center gap-3">
 
-        <span className={stockColor}>
+          {hasStock ? (
+            lowStock ? (
+              <>
+                <AlertTriangle
+                  className="text-yellow-400"
+                  size={22}
+                />
 
-          {product.stock > 0
-            ? `${product.stock} disponibles`
-            : "Agotado"}
+                <div>
 
-        </span>
+                  <p className="font-semibold text-yellow-400">
+
+                    Últimas unidades
+
+                  </p>
+
+                  <p className="text-sm text-zinc-400">
+
+                    Quedan {product.stock} disponibles
+
+                  </p>
+
+                </div>
+
+              </>
+            ) : (
+              <>
+                <BadgeCheck
+                  className="text-lime-400"
+                  size={22}
+                />
+
+                <div>
+
+                  <p className="font-semibold text-lime-400">
+
+                    Disponible
+
+                  </p>
+
+                  <p className="text-sm text-zinc-400">
+
+                    Stock: {product.stock} unidades
+
+                  </p>
+
+                </div>
+
+              </>
+            )
+          ) : (
+            <>
+              <XCircle
+                className="text-red-500"
+                size={22}
+              />
+
+              <div>
+
+                <p className="font-semibold text-red-500">
+
+                  Agotado
+
+                </p>
+
+                <p className="text-sm text-zinc-400">
+
+                  Actualmente sin stock
+
+                </p>
+
+              </div>
+
+            </>
+          )}
+
+        </div>
 
       </div>
 
       <div>
 
-        <h2 className="mb-3 font-semibold">
+        <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold">
+
+          <Package size={18} />
 
           Descripción
 
@@ -116,7 +184,5 @@ export default function ProductInfo({
       </div>
 
     </div>
-
   );
-
 }

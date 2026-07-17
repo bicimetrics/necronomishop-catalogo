@@ -1,4 +1,7 @@
-import { Product } from "@/types/product";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
+import { Product } from "@/features/products/types/product.types";
 
 import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
@@ -8,49 +11,42 @@ interface Props {
   product: Product;
 }
 
-export default function ProductDetail({
-  product,
-}: Props) {
-
+export default function ProductDetail({ product }: Props) {
   return (
+    <main className="mx-auto max-w-7xl px-6 py-12">
 
-    <section
-      className="
-        mx-auto
-        max-w-7xl
-        px-6
-        py-16
-      "
-    >
-
-      <div
+      <Link
+        href="/"
         className="
-          grid
-          gap-16
-          lg:grid-cols-2
+          mb-10
+          inline-flex
+          items-center
+          gap-2
+          text-sm
+          text-zinc-400
+          transition-colors
+          hover:text-white
         "
       >
+        <ArrowLeft size={18} />
 
-        <ProductGallery
-          product={product}
-        />
+        Volver al catálogo
+      </Link>
 
-        <div>
+      <div className="grid gap-16 lg:grid-cols-2">
 
-          <ProductInfo
-            product={product}
-          />
+        <ProductGallery product={product} />
 
-          <ProductBuyBox
-            product={product}
-          />
+        <div className="flex flex-col">
+
+          <ProductInfo product={product} />
+
+          <ProductBuyBox product={product} />
 
         </div>
 
       </div>
 
-    </section>
-
+    </main>
   );
-
 }

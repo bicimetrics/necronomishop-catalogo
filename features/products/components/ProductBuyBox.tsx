@@ -1,6 +1,6 @@
 import { MessageCircle } from "lucide-react";
 
-import { Product } from "@/types/product";
+import { Product } from "@/features/products/types/product.types";
 
 import {
   createWhatsAppLink,
