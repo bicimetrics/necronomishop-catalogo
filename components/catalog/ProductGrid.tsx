@@ -1,26 +1,14 @@
-import ProductService from "@/app/services/ProductService";
+import { Product } from "@/features/products/types/product.types";
+
 import ProductCard from "./ProductCard";
 
 interface Props {
-  search?: string;
-  categoryId?: number;
+  products: Product[];
 }
 
-export default async function ProductGrid({
-  search,
-  categoryId,
+export default function ProductGrid({
+  products,
 }: Props) {
-
-  // Paso siguiente:
-  // utilizaremos "search" para filtrar.
-  // Por ahora solamente dejamos preparado
-  // el componente.
-
- const products =
-  await ProductService.getProducts({
-    search,
-    categoryId,
-  });
 
   return (
 

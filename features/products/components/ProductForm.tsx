@@ -68,7 +68,7 @@ export default function ProductForm({
       ? {
           name: product.name,
           slug: product.slug,
-          description: product.description,
+          description: product.description ?? "",
           price: product.price,
           stock: product.stock,
           badge: product.badge ?? "",
@@ -156,7 +156,7 @@ export default function ProductForm({
             description: data.description,
             price: data.price,
             stock: data.stock,
-            badge: data.badge,
+            badge: data.badge ?? null,
             image: imagePath,
             category_id: data.category_id,
           }
@@ -172,7 +172,7 @@ export default function ProductForm({
         description: data.description,
         price: data.price,
         stock: data.stock,
-        badge: data.badge,
+        badge: data.badge ?? null,
         image: imagePath,
         category_id: data.category_id,
       };

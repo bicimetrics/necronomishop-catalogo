@@ -1,17 +1,15 @@
 import Image from "next/image";
-import { MessageCircle, Package, Sparkles } from "lucide-react";
-import { Product } from "@/types/product";
-import { getImageUrl } from "@/features/products/services/image.service";
-import {
-  createWhatsAppLink,
-} from "@/features/shared/utils/whatsapp";
-
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-interface Props {
-  product: Product;
-}
+import {
+  ArrowRight,
+  Package,
+  Sparkles,
+} from "lucide-react";
+
+import { Product } from "@/features/products/types/product.types";
+import { getImageUrl } from "@/features/products/services/image.service";
+
 interface Props {
   product: Product;
 }

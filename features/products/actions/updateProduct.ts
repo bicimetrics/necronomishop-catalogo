@@ -7,22 +7,16 @@ import {
   updateProductRepository,
 } from "../repositories/product.repository";
 
-import { Product } from "../types/product.types";
+import { UpdateProduct } from "../types/product.types";
 
 export async function updateProduct(
   id: number,
-  product: Product
+  product: UpdateProduct
 ) {
-
-  await updateProductRepository(
-    id,
-    product
-  );
+  await updateProductRepository(id, product);
 
   revalidatePath("/");
-
   revalidatePath("/admin/productos");
 
   redirect("/admin/productos");
-
 }

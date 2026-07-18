@@ -5,19 +5,19 @@ export interface Product {
 
   slug: string;
 
-  description: string;
+  description: string | null;
 
   price: number;
 
   stock: number;
 
-  badge?: string;
+  badge: string | null;
 
   image: string;
 
   category_id: number;
 
-  created_at?: string;
+  created_at: string;
 
   categories?: {
     name: string;
@@ -35,7 +35,27 @@ export interface CreateProduct {
 
   stock: number;
 
-  badge?: string;
+  badge: string | null;
+
+  image: string;
+
+  category_id: number;
+}
+
+export interface UpdateProduct {
+  id: number;
+
+  name: string;
+
+  slug: string;
+
+  description: string;
+
+  price: number;
+
+  stock: number;
+
+  badge: string | null;
 
   image: string;
 
@@ -44,5 +64,6 @@ export interface CreateProduct {
 
 export interface Category {
   id: number;
+
   name: string;
 }

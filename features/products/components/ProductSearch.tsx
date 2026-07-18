@@ -11,50 +11,34 @@ import {
   useState,
 } from "react";
 
-interface Props {
-  defaultValue?: string;
-}
-
-export default function SearchBar({
-  defaultValue = "",
-}: Props) {
-
+export default function ProductSearch() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const initialValue =
+    searchParams.get("q") ?? "";
+
   const [value, setValue] =
-    useState(defaultValue);
+    useState(initialValue);
 
   useEffect(() => {
-
     const timeout = setTimeout(() => {
-
-      const params =
-        new URLSearchParams(
-          searchParams.toString()
-        );
+      const params = new URLSearchParams(
+        searchParams.toString()
+      );
 
       if (value.trim()) {
-
-        params.set(
-          "search",
-          value
-        );
-
+        params.set("q", value);
       } else {
-
-        params.delete("search");
-
+        params.delete("q");
       }
 
-      // Al cambiar la búsqueda siempre vuelve a la primera página
       params.delete("page");
 
       router.replace(
         `${pathname}?${params.toString()}`
       );
-
     }, 300);
 
     return () => clearTimeout(timeout);
@@ -66,10 +50,18 @@ export default function SearchBar({
     searchParams,
   ]);
 
+  function clearSearch() {
+    setValue("");
+  }
+
   return (
-
-    <div className="relative">
-
+    <div
+      className="
+        relative
+        w-full
+        max-w-xl
+      "
+    >
       <Search
         size={18}
         className="
@@ -92,22 +84,20 @@ export default function SearchBar({
           rounded-2xl
           border
           border-zinc-800
-          bg-[#111]
+          bg-zinc-900
           py-3
           pl-11
-          pr-11
-          text-white
+          pr-12
           outline-none
           transition
-          focus:border-zinc-600
+          focus:border-lime-400
         "
       />
 
       {value && (
-
         <button
           type="button"
-          onClick={() => setValue("")}
+          onClick={clearSearch}
           className="
             absolute
             right-4
@@ -115,16 +105,12 @@ export default function SearchBar({
             -translate-y-1/2
             text-zinc-500
             hover:text-white
-            transition
           "
         >
-          <X size={18} />
+          <X size={18}/>
         </button>
-
       )}
 
     </div>
-
   );
-
 }

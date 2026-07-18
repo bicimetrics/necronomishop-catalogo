@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import {
   Product,
   CreateProduct,
+  UpdateProduct,
 } from "../types/product.types";
 
 export async function getProduct(
@@ -47,7 +48,7 @@ export async function createProductRepository(
 
 export async function updateProductRepository(
   id: number,
-  product: Product
+  product: UpdateProduct
 ): Promise<void> {
 
   const { error } = await supabase
@@ -83,9 +84,9 @@ export async function deleteProductRepository(
     throw error;
   }
 
-} 
+}
 
-  export async function getProductBySlug(
+export async function getProductBySlug(
   slug: string
 ): Promise<Product | null> {
 
@@ -104,9 +105,7 @@ export async function deleteProductRepository(
     .single();
 
   if (error) {
-
     return null;
-
   }
 
   return data as Product;
@@ -135,12 +134,9 @@ export async function getRelatedProducts(
     .limit(limit);
 
   if (error) {
-
     throw error;
-
   }
 
   return data as Product[];
 
 }
-
