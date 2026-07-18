@@ -3,14 +3,16 @@ import {
   getRelatedProducts,
 } from "../repositories/product.repository";
 
-import { getProducts } from "../repositories/product-list.repository";
+import {
+  getProductsPaginated,
+} from "../repositories/product-list.repository";
 
 import { ProductFilters } from "../types/product-filter.types";
 
 export async function findProducts(
   filters?: ProductFilters
 ) {
-  return getProducts(filters);
+  return getProductsPaginated(filters);
 }
 
 export async function findProductBySlug(
