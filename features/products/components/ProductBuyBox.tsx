@@ -1,6 +1,7 @@
 import { MessageCircle } from "lucide-react";
 
 import { Product } from "@/features/products/types/product.types";
+import ShareButton from "@/features/shared/components/ShareButton";
 
 import {
   createWhatsAppLink,
@@ -15,17 +16,19 @@ export default function ProductBuyBox({
 }: Props) {
 
   return (
+  <div className="mt-10">
 
     <a
       href={createWhatsAppLink(
-  product.name,
-  product.price,
-  product.slug
-)}
+        product.name,
+        product.price,
+        product.slug
+      )}
       target="_blank"
+      rel="noopener noreferrer"
       className="
-        mt-10
         flex
+        w-full
         items-center
         justify-center
         gap-3
@@ -40,13 +43,16 @@ export default function ProductBuyBox({
         hover:scale-[1.02]
       "
     >
-
-      <MessageCircle size={22}/>
+      <MessageCircle size={22} />
 
       Comprar por WhatsApp
-
     </a>
 
-  );
+    <ShareButton
+      title={product.name}
+      slug={product.slug}
+    />
 
-}
+  </div>
+)
+};
