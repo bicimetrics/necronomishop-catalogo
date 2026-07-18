@@ -9,6 +9,7 @@ interface Props {
   searchParams: Promise<{
     search?: string;
     category?: string;
+    stock?: string;
     sort?: string;
     page?: string;
   }>;
@@ -29,6 +30,18 @@ const validSorts = [
   "nameDesc",
 ] as const;
 
+const validStocks = [
+  "available",
+  "low",
+  "empty",
+] as const;
+
+const stock = validStocks.includes(
+  params.stock as (typeof validStocks)[number]
+)
+  ? (params.stock as (typeof validStocks)[number])
+  : undefined;
+
 const sort = validSorts.includes(
   params.sort as (typeof validSorts)[number]
 )
@@ -40,6 +53,7 @@ const products = await findProducts({
   categoryId: params.category
     ? Number(params.category)
     : undefined,
+  stock,
   sort,
   page: params.page
     ? Number(params.page)
@@ -67,6 +81,7 @@ const products = await findProducts({
                 ? Number(params.category)
                 : undefined
             }
+             selectedStock={stock}
           />
 
         </div>
