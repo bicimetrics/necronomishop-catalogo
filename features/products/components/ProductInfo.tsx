@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 
 import { Product } from "@/features/products/types/product.types";
+import StockBadge from "./StockBadge";
+import Image from "next/image";
 
 interface Props {
   product: Product;
@@ -101,11 +103,9 @@ export default function ProductInfo({ product }: Props) {
 
                   </p>
 
-                  <p className="text-sm text-zinc-400">
-
-                    Quedan {product.stock} disponibles
-
-                  </p>
+                 <div className="mt-2">
+  <StockBadge stock={product.stock} />
+</div>
 
                 </div>
 
@@ -127,7 +127,7 @@ export default function ProductInfo({ product }: Props) {
 
                   <p className="text-sm text-zinc-400">
 
-                    Stock: {product.stock} unidades
+                   <StockBadge stock={product.stock} />
 
                   </p>
 

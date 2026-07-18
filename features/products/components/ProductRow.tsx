@@ -6,6 +6,7 @@ import { Product } from "@/features/products/types/product.types";
 import { getImageUrl } from "@/features/products/services/image.service";
 
 import DeleteButton from "./DeleteButton";
+import StockBadge from "./StockBadge";
 
 interface Props {
   product: Product & {
@@ -57,18 +58,7 @@ export default function ProductRow({ product }: Props) {
       </td>
 
       <td>
-        <span
-          className="
-            rounded-full
-            bg-lime-400/10
-            px-3
-            py-1
-            text-xs
-            text-lime-400
-          "
-        >
-          Disponible
-        </span>
+        <StockBadge stock={product.stock} />  
       </td>
 
       <td>
