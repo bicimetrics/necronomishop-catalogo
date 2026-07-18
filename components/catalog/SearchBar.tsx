@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function SearchBar({
-  defaultValue = "",
+  defaultValue = "",    
 }: Props) {
 
   const router = useRouter();
@@ -27,44 +27,29 @@ export default function SearchBar({
     useState(defaultValue);
 
   useEffect(() => {
+  const timeout = setTimeout(() => {
+    const params = new URLSearchParams(searchParams.toString());
 
-    const timeout = setTimeout(() => {
+    if (value.trim()) {
+      params.set("search", value.trim());
+    } else {
+      params.delete("search");
+    }
 
-      const params =
-        new URLSearchParams(
-          searchParams.toString()
-        );
+    // Reiniciar paginación al buscar
+    params.delete("page");
 
-      if (value.trim()) {
+    const nextUrl = `${pathname}?${params.toString()}`;
+    const currentUrl = `${pathname}?${searchParams.toString()}`;
 
-        params.set(
-          "search",
-          value
-        );
+    // Solo navegar si realmente cambió la URL
+    if (nextUrl !== currentUrl) {
+      router.replace(nextUrl);
+    }
+  }, 300);
 
-      } else {
-
-        params.delete("search");
-
-      }
-
-      // Al cambiar la búsqueda siempre vuelve a la primera página
-      params.delete("page");
-
-      router.replace(
-        `${pathname}?${params.toString()}`
-      );
-
-    }, 300);
-
-    return () => clearTimeout(timeout);
-
-  }, [
-    value,
-    pathname,
-    router,
-    searchParams,
-  ]);
+  return () => clearTimeout(timeout);
+}, [value, pathname, router, searchParams]);
 
   return (
 

@@ -17,12 +17,11 @@ export async function getProducts(
       )
     `);
 
-  if (filters?.search) {
-    query = query.ilike(
-      "name",
-      `%${filters.search}%`
-    );
-  }
+if (filters?.search) {
+  query = query.or(
+    `name.ilike.%${filters.search}%,description.ilike.%${filters.search}%`
+  );
+}
 
   if (filters?.categoryId) {
     query = query.eq(
@@ -125,12 +124,11 @@ export async function getProductsPaginated(
       }
     );
 
-  if (filters?.search) {
-    query = query.ilike(
-      "name",
-      `%${filters.search}%`
-    );
-  }
+if (filters?.search) {
+  query = query.or(
+    `name.ilike.%${filters.search}%,description.ilike.%${filters.search}%`
+  );
+}
 
   if (filters?.categoryId) {
     query = query.eq(
