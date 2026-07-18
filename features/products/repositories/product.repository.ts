@@ -6,6 +6,20 @@ import {
   UpdateProduct,
 } from "../types/product.types";
 
+import { getProductImages } from "./product-image.repository";
+
+export interface ProductImage {
+  id: number;
+
+  product_id: number;
+
+  image: string;
+
+  sort_order: number;
+
+  created_at: string;
+}
+
 export async function getProduct(
   id: number
 ): Promise<Product> {
@@ -104,11 +118,16 @@ export async function getProductBySlug(
     .eq("slug", slug)
     .single();
 
-  if (error) {
+  if (error || !data) {
     return null;
   }
 
-  return data as Product;
+  const images = await getProductImages(data.id);
+
+  return {
+    ...data,
+    images,
+  } as Product;
 
 }
 

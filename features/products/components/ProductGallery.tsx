@@ -14,10 +14,16 @@ interface Props {
 export default function ProductGallery({
   product,
 }: Props) {
-  const images = useMemo(
-    () => [product.image],
-    [product.image]
-  );
+  
+  const images = useMemo(() => {
+  if (product.images?.length) {
+    return product.images
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .map((img) => img.image);
+  }
+
+  return [product.image];
+}, [product.images, product.image]);
 
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isOpen, setIsOpen] = useState(false);

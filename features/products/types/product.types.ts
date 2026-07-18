@@ -1,3 +1,15 @@
+export interface ProductImage {
+  id: number;
+
+  product_id: number;
+
+  image: string;
+
+  sort_order: number;
+
+  created_at: string;
+}
+
 export interface Product {
   id: number;
 
@@ -14,6 +26,8 @@ export interface Product {
   badge: string | null;
 
   image: string;
+
+  images?: ProductImage[];
 
   category_id: number;
 
