@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Product } from "../types/product.types";
+import { getImageUrl } from "../services/image.service";
 
 interface Props {
   products: Product[];
@@ -36,12 +37,13 @@ export default function RelatedProducts({
             "
           >
             <div className="relative aspect-square">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+     <Image
+  src={getImageUrl(product.image)}
+  alt={product.name}
+  fill
+  className="object-cover"
+  sizes="(max-width:768px) 100vw, 25vw"
+/>
             </div>
 
             <div className="space-y-2 p-4">
