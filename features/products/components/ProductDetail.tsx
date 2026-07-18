@@ -6,6 +6,7 @@ import { Product } from "@/features/products/types/product.types";
 import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
 import ProductBuyBox from "./ProductBuyBox";
+import Breadcrumb from "./Breadcrumb";
 
 interface Props {
   product: Product;
@@ -15,7 +16,11 @@ export default function ProductDetail({ product }: Props) {
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
 
-      <Link
+  <Breadcrumb
+    title={product.name}
+  />
+
+  <Link
         href="/"
         className="
           mb-10
