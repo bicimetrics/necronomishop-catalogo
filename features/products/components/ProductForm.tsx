@@ -45,8 +45,8 @@ export default function ProductForm({
   categories,
 }: Props) {
 
-  const [image, setImage] =
-    useState<File | null>(null);
+  const [images, setImages] =
+  useState<File[]>([]);
 
   const [loading, setLoading] =
     useState(false);
@@ -106,15 +106,15 @@ export default function ProductForm({
 
   async function resolveImage() {
 
-    if (!image) {
+  if (images.length === 0) {
 
-      return product?.image ?? "";
-
-    }
-
-    return uploadProductImage(image);
+    return product?.image ?? "";
 
   }
+
+  return uploadProductImage(images[0]);
+
+}
 
   async function onSubmit(
   data: ProductFormData
@@ -122,15 +122,15 @@ export default function ProductForm({
 
   try {
 
-    if (!product && !image) {
+    if (!product && images.length === 0) {
 
-      notification.warning(
-        "Debes subir una imagen antes de guardar el producto."
-      );
+  notification.warning(
+    "Debes subir al menos una imagen antes de guardar el producto."
+  );
 
-      return;
+  return;
 
-    }
+}
 
     setLoading(true);
 
@@ -214,8 +214,8 @@ export default function ProductForm({
       />
 
       <ImageSection
-        onChange={setImage}
-      />
+  onChange={setImages}
+/>
 
       <ActionsSection
         loading={loading}

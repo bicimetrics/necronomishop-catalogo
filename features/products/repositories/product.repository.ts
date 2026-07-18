@@ -48,17 +48,24 @@ export async function getProduct(
 
 export async function createProductRepository(
   product: CreateProduct
-): Promise<void> {
+): Promise<Product> {
 
-  const { error } = await supabase
+  const {
+    data,
+    error,
+  } = await supabase
     .from("products")
-    .insert(product);
+    .insert(product)
+    .select()
+    .single();
 
   if (error) {
     throw error;
   }
 
-}
+  return data as Product;
+
+} 
 
 export async function updateProductRepository(
   id: number,

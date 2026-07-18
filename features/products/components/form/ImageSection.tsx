@@ -1,7 +1,7 @@
 import ImageUploader from "@/components/admin/ui/ImageUploader";
 
 interface Props {
-  onChange: (file: File | null) => void;
+  onChange: (files: File[]) => void;
 }
 
 export default function ImageSection({
