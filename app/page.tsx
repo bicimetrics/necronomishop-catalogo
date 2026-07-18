@@ -75,14 +75,15 @@ const products = await findProducts({
         <div className="mt-8">
 
           <Filters
-            search={params.search}
-            selectedCategory={
-              params.category
-                ? Number(params.category)
-                : undefined
-            }
-             selectedStock={stock}
-          />
+  search={params.search}
+  selectedCategory={
+    params.category
+      ? Number(params.category)
+      : undefined
+  }
+  selectedStock={stock}
+  selectedSort={sort}
+/>
 
         </div>
 
