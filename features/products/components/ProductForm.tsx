@@ -116,57 +116,36 @@ export default function ProductForm({
 
 }
 
-  async function onSubmit(
+async function onSubmit(
   data: ProductFormData
 ) {
-
   try {
-
     if (!product && images.length === 0) {
-
-  notification.warning(
-    "Debes subir al menos una imagen antes de guardar el producto."
-  );
-
-  return;
-
-}
+      notification.warning(
+        "Debes subir al menos una imagen antes de guardar el producto."
+      );
+      return;
+    }
 
     setLoading(true);
 
-      const imagePath =
-        await resolveImage();
+    const uploadedImages =
+      images.length > 0
+        ? await Promise.all(
+            images.map((file) => uploadProductImage(file))
+          )
+        : [];
 
-      if (product) {
+    const imagePath =
+      uploadedImages[0] ?? product?.image ?? "";
 
-        if (!product.id) {
-
-          throw new Error(
-            "El producto no tiene ID."
-          );
-
-        }
-
-        await updateProduct(
-          product.id,
-          {
-            id: product.id,
-            name: data.name,
-            slug: data.slug,
-            description: data.description,
-            price: data.price,
-            stock: data.stock,
-            badge: data.badge ?? null,
-            image: imagePath,
-            category_id: data.category_id,
-          }
-        );
-
-        return;
-
+    if (product) {
+      if (!product.id) {
+        throw new Error("El producto no tiene ID.");
       }
 
-      const productData: CreateProduct = {
+      await updateProduct(product.id, {
+        id: product.id,
         name: data.name,
         slug: data.slug,
         description: data.description,
@@ -175,22 +154,40 @@ export default function ProductForm({
         badge: data.badge ?? null,
         image: imagePath,
         category_id: data.category_id,
-      };
+      });
 
-      await createProduct(productData);
-
-    } catch (error) {
-
-      console.error(error);
-
-    } finally {
-
-      setLoading(false);
-
+      return;
     }
 
-  }
+    const productData: CreateProduct = {
+      name: data.name,
+      slug: data.slug,
+      description: data.description,
+      price: data.price,
+      stock: data.stock,
+      badge: data.badge ?? null,
+      image: imagePath,
+      category_id: data.category_id,
+    };
 
+    const productImages = uploadedImages.map(
+      (image, index) => ({
+        image,
+        sortOrder: index,
+      })
+    );
+
+    await createProduct(
+      productData,
+      productImages
+    );
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+}
   return (
 
     <form
