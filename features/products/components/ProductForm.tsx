@@ -3,13 +3,19 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as notification
-from "@/features/shared/services/notification.service";
+
+import * as notification from "@/features/shared/services/notification.service";
 
 import {
   Product,
   CreateProduct,
 } from "../types/product.types";
+
+import {
+  productSchema,
+  ProductFormInput,
+  ProductFormData,
+} from "../schemas/product.schema";
 
 import { uploadProductImage } from "../services/image.service";
 
@@ -17,12 +23,6 @@ import { createProduct } from "../actions/createProduct";
 import { updateProduct } from "../actions/updateProduct";
 
 import { generateSlug } from "../../shared/utils/slug";
-
-import {
-  productSchema,
-  ProductFormInput,
-  ProductFormData,
-} from "../schemas/product.schema";
 
 import GeneralSection from "./form/GeneralSection";
 import PricingSection from "./form/PricingSection";
@@ -45,11 +45,8 @@ export default function ProductForm({
   categories,
 }: Props) {
 
-  const [images, setImages] =
-  useState<File[]>([]);
-
-  const [loading, setLoading] =
-    useState(false);
+  const [images, setImages] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -104,48 +101,66 @@ export default function ProductForm({
     setValue,
   ]);
 
-  async function resolveImage() {
+  async function onSubmit(
+    data: ProductFormData
+  ) {
 
-  if (images.length === 0) {
+    try {
 
-    return product?.image ?? "";
+      if (!product && images.length === 0) {
 
-  }
+        notification.warning(
+          "Debes subir al menos una imagen antes de guardar el producto."
+        );
 
-  return uploadProductImage(images[0]);
+        return;
 
-}
-
-async function onSubmit(
-  data: ProductFormData
-) {
-  try {
-    if (!product && images.length === 0) {
-      notification.warning(
-        "Debes subir al menos una imagen antes de guardar el producto."
-      );
-      return;
-    }
-
-    setLoading(true);
-
-    const uploadedImages =
-      images.length > 0
-        ? await Promise.all(
-            images.map((file) => uploadProductImage(file))
-          )
-        : [];
-
-    const imagePath =
-      uploadedImages[0] ?? product?.image ?? "";
-
-    if (product) {
-      if (!product.id) {
-        throw new Error("El producto no tiene ID.");
       }
 
-      await updateProduct(product.id, {
-        id: product.id,
+      setLoading(true);
+
+      const uploadedImages =
+        images.length > 0
+          ? await Promise.all(
+              images.map(uploadProductImage)
+            )
+          : [];
+
+      const imagePath =
+        uploadedImages[0] ??
+        product?.image ??
+        "";
+
+     const startOrder = product?.images?.length ?? 0;
+
+const productImages = uploadedImages.map((image, index) => ({
+  image,
+  sortOrder: startOrder + index,
+}));
+
+      if (product) {
+
+        await updateProduct(
+          product.id,
+          {
+            id: product.id,
+            name: data.name,
+            slug: data.slug,
+            description: data.description,
+            price: data.price,
+            stock: data.stock,
+            badge: data.badge ?? null,
+            image: product.image,
+            category_id: data.category_id,
+          },
+          productImages
+        );
+
+        return;
+
+      }
+
+      const productData: CreateProduct = {
         name: data.name,
         slug: data.slug,
         description: data.description,
@@ -154,40 +169,25 @@ async function onSubmit(
         badge: data.badge ?? null,
         image: imagePath,
         category_id: data.category_id,
-      });
+      };
 
-      return;
+      await createProduct(
+        productData,
+        productImages
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+    } finally {
+
+      setLoading(false);
+
     }
 
-    const productData: CreateProduct = {
-      name: data.name,
-      slug: data.slug,
-      description: data.description,
-      price: data.price,
-      stock: data.stock,
-      badge: data.badge ?? null,
-      image: imagePath,
-      category_id: data.category_id,
-    };
-
-    const productImages = uploadedImages.map(
-      (image, index) => ({
-        image,
-        sortOrder: index,
-      })
-    );
-
-    await createProduct(
-      productData,
-      productImages
-    );
-
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
   }
-}
+
   return (
 
     <form
@@ -211,7 +211,14 @@ async function onSubmit(
       />
 
       <ImageSection
-  onChange={setImages}
+    existingImages={
+        product?.images?.map((img) => ({
+            id: img.id,
+            image: img.image,
+            sortOrder: img.sort_order,
+        })) ?? []
+    }
+    onChange={setImages}
 />
 
       <ActionsSection

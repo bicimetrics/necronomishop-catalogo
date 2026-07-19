@@ -42,14 +42,14 @@ export async function deleteProductImage(
 export async function createProductImage(
   productId: number,
   image: string,
-  sortOrder: number
+  sort_Order: number
 ): Promise<void> {
   const { error } = await supabase
     .from("product_images")
     .insert({
       product_id: productId,
       image,
-      sort_order: sortOrder,
+      sort_order: sort_Order,
     });
 
   if (error) {

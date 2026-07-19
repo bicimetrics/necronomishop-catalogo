@@ -42,7 +42,13 @@ export async function getProduct(
     throw error;
   }
 
-  return data as Product;
+  const images =
+  await getProductImages(data.id);
+
+return {
+  ...data,
+  images,
+} as Product;
 
 }
 

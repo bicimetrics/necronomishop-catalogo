@@ -2,28 +2,43 @@
 
 import Image from "next/image";
 import { Upload, X, ImagePlus } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getImageUrl } from "@/features/products/services/image.service";
+
+
 
 import { PendingImage } from "@/features/products/types/pending-image.types";
 
+
+import { ExistingImage } from "@/features/products/types/existing-image.types";
+
 interface Props {
-  value?: string[];
+  existingImages?: ExistingImage[];
   onChange: (files: File[]) => void;
 }
 
 export default function ImageUploader({
-  value = [],
+  existingImages = [],
   onChange,
 }: Props) {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [images, setImages] = useState<PendingImage[]>(
-    value.map((image) => ({
+const [images, setImages] = useState<PendingImage[]>(
+  existingImages.map((image) => ({
+    file: {} as File,
+    preview: image.image,
+  }))
+);
+
+ useEffect(() => {
+  setImages(
+    existingImages.map((image) => ({
       file: {} as File,
-      preview: image,
+      preview: image.image,
     }))
   );
+}, [existingImages]);
 
   function addFiles(files: FileList) {
 
@@ -140,7 +155,7 @@ export default function ImageUploader({
             >
 
               <Image
-                src={image.preview}
+  src={getImageUrl(image.preview)}
                 alt=""
                 fill
                 className="object-cover"

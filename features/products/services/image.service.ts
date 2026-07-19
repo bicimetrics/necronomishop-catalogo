@@ -21,9 +21,12 @@ export function getImageUrl(path?: string | null) {
   }
 
   // Si ya es una URL completa, la devolvemos tal cual.
-  if (path.startsWith("http")) {
-    return path;
-  }
+ if (
+  path.startsWith("http") ||
+  path.startsWith("blob:")
+) {
+  return path;
+}
 
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${path}`;
 }
